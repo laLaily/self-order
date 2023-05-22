@@ -4,10 +4,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard Admin</title>
+    <title>Document</title>
 </head>
 <body>
-    <a href="">Produk</a>
-    <a href="">Transaksi</a>
+    Thank You
 </body>
 </html>

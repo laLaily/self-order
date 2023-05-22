@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create("transactions", function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("customerId")->unsigned();
+            $table->foreignId("customerId")->constrained('customers');
+            $table->foreignId("cashierId")->nullable()->constrained('cashiers');
             $table->timestamp("transactionDate")->useCurrent();
             $table->integer("subtotal")->default(0);
             $table->integer("tax")->default(0);
             $table->integer("totalPrice")->default(0);
-            $table->enum("status", ['in progress', 'success'])->default('in progress');
+            $table->enum("status", ['In progress', 'Success'])->default('in progress');
             $table->string("paymentCode")->nullable();
-
-            $table->foreign("customerId")->references("id")->on("customers");
+            $table->timestamp("updatedAt")->useCurrent();
         });
     }
 

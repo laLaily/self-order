@@ -26,6 +26,31 @@ Route::prefix('/dinein')->group(function (){
     Route::post('/order/products/delete', [\App\Http\Controllers\TransactionsController::class, 'deleteProduct']) ->name('deleteProduct');
     Route::get('/order/submit', [\App\Http\Controllers\TransactionsController::class, 'submitCart']) ->name('submitOrder');
     Route::get('/order/success', function (){
-        return view();
+        return view('order.paymentCode');
     });
 });
+
+Route::prefix('/cashier')->group(function (){
+    Route::get('/login',[\App\Http\Controllers\CashiersController::class, 'login']);
+    Route::post('/login/process', [\App\Http\Controllers\CashiersController::class, 'loginCheck'])->name('loginCashier');
+//    Route::post('/create', [\App\Http\Controllers\CashiersController::class, 'addCashier'])->name('addCashier');
+    Route::middleware(\App\Http\Middleware\CashierMiddleware::class)->group(function (){
+        Route::get('/dashboard', [\App\Http\Controllers\CashiersController::class, 'dashboard']);
+
+        Route::prefix('/product')->group(function() {
+            Route::get('/view', [\App\Http\Controllers\CashiersController::class, 'getProducts'])->name('cashier.viewProducts');
+            Route::post('/create', [\App\Http\Controllers\CashiersController::class, 'addProduct'])->name('cashier.addProduct');
+            Route::post('/delete/{id}',[\App\Http\Controllers\CashiersController::class, 'deleteProduct'])->name('cashier.deleteProduct');
+            Route::post('/update/{id}', [\App\Http\Controllers\CashiersController::class, 'updateProducts'])->name('cashier.updateProduct');
+        });
+
+        Route::prefix('/transaction')->group(function (){
+            Route::get('/view', [\App\Http\Controllers\CashiersController::class, 'getTransactions'])->name('cashier.viewTransactions');
+        });
+    });
+});
+
+Route::prefix('/admin')->group(function (){
+
+});
+

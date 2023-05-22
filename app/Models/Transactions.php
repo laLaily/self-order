@@ -19,5 +19,8 @@ class Transactions extends Model
     {
         return $this->BelongsTo(Customers::class, 'customerId');
     }
-
+    public function cashiers() : BelongsTo
+    {
+        return $this->BelongsTo(Cashiers::class, 'cashierId');
+    }
 }

@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create("products", function (Blueprint $table) {
             $table->id();
-            $table->enum("productCategory", ["beverage", "food"]);
+            $table->enum("productCategory", ["Beverage", "Food"]);
             $table->string("productName");
             $table->integer("productPrice");
             $table->integer("productStock");
             $table->timestamp("updatedAt")->nullable();
+            $table->foreignId("updaterId")->nullable()->constrained("cashiers");
         });
     }
 
