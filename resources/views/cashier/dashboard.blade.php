@@ -8,6 +8,6 @@
 </head>
 <body>
     <a href="{{route('cashier.viewProducts')}}">Products {{$totalProducts}}</a>
-    <a href="">Transactions {{$totalTransactions}}</a>
+    <a href="{{route('cashier.viewTransaction')}}">Transactions {{$totalTransactions}}</a>
 </body>
 </html>

@@ -10,22 +10,36 @@
 
 </head>
 <body>
-        <form action="{{route("addCustomer")}}" method="post">
-            @csrf
-            <div class="mb-3 d-flex justify-content-center align-items-center">
-                <h1>Order Dine-In</h1>
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center h-75 align-content-center">
+            <div class="col-8">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h5 class="mt-2">Order Dine-In</h5>
+                    </div>
+                    <div class="card-body shadow-sm">
+                        <form action="{{route("addCustomer")}}" method="post">
+                            @csrf
+                            <div class="mb-3 d-flex justify-content-center align-items-center">
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="customerName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="name" autocomplete="off">
+                            </div>
+                            <div class="mb-3">
+                                <label for="customerPhone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="customerPhone" name="customerPhone" placeholder="phone" autocomplete="off">
+                            </div>
+                            <button class="btn btn-light" type="submit" style="background: #efefef">Order Sekarang</button>
+{{--                            <div class="d-flex justify-content-center align-items-center">--}}
+{{--                                <button class=" btn " style="width: 150px; background: #483434; color:#EED6C4" type="submit">Order Sekarang</button>--}}
+{{--                            </div>--}}
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="customerName" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="customerName" name="customerName" placeholder="name">
-            </div>
-            <div class="mb-3">
-                <label for="customerPhone" class="form-label">Phone</label>
-                <input type="text" class="form-control" id="customerPhone" name="customerPhone" placeholder="phone">
-            </div>
-            <div class="d-flex justify-content-center align-items-center">
-                <button class=" btn " style="width: 150px; background: #483434; color:#EED6C4" type="submit">Order</button>
-            </div>
-        </form>
+        </div>
+    </div>
 </body>
 </html>

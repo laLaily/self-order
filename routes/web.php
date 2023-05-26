@@ -45,7 +45,9 @@ Route::prefix('/cashier')->group(function (){
         });
 
         Route::prefix('/transaction')->group(function (){
-            Route::get('/view', [\App\Http\Controllers\CashiersController::class, 'getTransactions'])->name('cashier.viewTransactions');
+            Route::get('/view', [\App\Http\Controllers\CashiersController::class, 'getTransactions'])->name('cashier.viewTransaction');
+            Route::get('/view/{id}', [\App\Http\Controllers\CashiersController::class, 'getOneTransactionWithProduct'])->name('cashier.viewDetailTransaction');
+            Route::post('/updateStatus/{id}', [\App\Http\Controllers\CashiersController::class, 'updateStatusTransaction'])->name('cashier.updateStatus');
         });
     });
 });
