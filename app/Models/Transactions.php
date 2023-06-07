@@ -7,6 +7,36 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\Transactions
+ *
+ * @property-read \App\Models\Cashiers|null $cashiers
+ * @property-read \App\Models\Customers|null $customers
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions query()
+ * @property int $id
+ * @property int $customerId
+ * @property int|null $cashierId
+ * @property string $transactionDate
+ * @property int $subtotal
+ * @property int $tax
+ * @property int $totalPrice
+ * @property string $status
+ * @property string|null $paymentCode
+ * @property string $updatedAt
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions whereCashierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions whereCustomerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions wherePaymentCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions whereSubtotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions whereTax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions whereTotalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions whereTransactionDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transactions whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Transactions extends Model
 {
     use HasFactory;
@@ -15,6 +45,8 @@ class Transactions extends Model
     public $timestamps = false;
 
     protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
     public function customers() : BelongsTo
     {
         return $this->BelongsTo(Customers::class, 'customerId');

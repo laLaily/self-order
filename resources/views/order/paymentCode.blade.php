@@ -7,6 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    Thank You
+    <p>Thank You For Order</p>
+    <p>Your payment code is : {{session('paymentCode') ?? ''}}</p>
+    <p></p>
+    <div class="card-body">
+        {!! QrCode::size(300)->generate("http://127.0.0.1:8000/dinein/order/success?" . session('paymentCode')) !!}
+    </div>
 </body>
 </html>

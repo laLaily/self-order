@@ -22,8 +22,7 @@
                     <div class="card-body">
                         <div class="">
                             <!-- Filter -->
-                            <form action="{{route("filterProduct")}}" method="post">
-                                @csrf
+                            <form action="{{route("dinein.cart")}}" method="get">
                                 <label for="filter">Pilih Kategori</label>
                                 <div class="d-flex gap-2">
                                     <select name="filter" id="filter" class="form-select w-50">
@@ -132,8 +131,8 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn button">
-                                            <a href="{{route("submitOrder")}}" class="link-light text-decoration-none">Confim Order</a>
+                                        <button type="button" class="btn btn-secondary button">
+                                            <a href="{{route("submitOrder")}}" class="link-light text-decoration-none ">Confim Order</a>
                                         </button>
                                     </div>
                                 </div>

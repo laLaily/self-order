@@ -20,7 +20,8 @@ Route::get('/', function () {
 Route::prefix('/dinein')->group(function (){
     Route::get('/registration', [\App\Http\Controllers\CustomersController::class, 'register']);
     Route::post('/registration/process', [\App\Http\Controllers\TransactionsController::class, 'createTransaction'])->name('addCustomer');
-    Route::get('/order/products', [\App\Http\Controllers\TransactionsController::class, 'cart']);
+    Route::get('/order/products', [\App\Http\Controllers\TransactionsController::class, 'cart'])
+    ->name('dinein.cart');
     Route::post('/order/products/filter', [\App\Http\Controllers\TransactionsController::class, 'filterByCategory']) ->name('filterProduct');
     Route::post('/order/products/process', [\App\Http\Controllers\TransactionsController::class, 'createDetailTransaction'])->name('addTrxProduct');
     Route::post('/order/products/delete', [\App\Http\Controllers\TransactionsController::class, 'deleteProduct']) ->name('deleteProduct');
@@ -55,4 +56,3 @@ Route::prefix('/cashier')->group(function (){
 Route::prefix('/admin')->group(function (){
 
 });
-
