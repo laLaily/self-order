@@ -17,7 +17,7 @@
             height: 100vh;
             justify-content: center;
             align-items: center;
-            background: url(bg.png);
+            background: url('bg.png');
             background-size: cover;
         }
         .container{
@@ -106,26 +106,51 @@
             }
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
 </head>
 <body>
 <div class="container">
-    <h1 class="form-title">Customer Form</h1>
-    <form action="{{route("addCustomer")}}" method="post">
+    <h1 class="form-title">Customer Forms</h1>
+{{--    <form action="/api/reservation" method="post">--}}
         @csrf
         <div class="main-user-info">
             <div class="user-input-box">
-                <label for="Nama Ortu">Nama Customer</label>
+                <label for="">Nama Customer</label>
                 <input type="text" class="form-control" id="customerName" name="customerName" placeholder="name" autocomplete="off">
             </div>
             <div class="user-input-box">
-                <label for="NoTelp">Nomor Telepon</label>
+                <label for="">Nomor Telepon</label>
                 <input type="text" class="form-control" id="customerPhone" name="customerPhone" placeholder="phone" autocomplete="off">
             </div>
         </div>
         <div class="form-submit-btn">
-            <input type="submit" value="Order Sekarang">
+            <input type="button" value="Order Sekarang" id="orderBtn">
         </div>
-    </form>
+{{--    </form>--}}
 </div>
+<script>
+
+    $('#orderBtn').click(function (){
+        $.ajax({
+            url: '/api/reservation',
+            method: 'POST',
+            header: {
+                'X-CSRF-TOKEN': "{{csrf_token()}}"
+            },
+            data: {
+                'customerName': $('#customerName').val(),
+                'customerPhone': $('#customerPhone').val()
+            },
+            success: function (data){
+                const token = data.token.original.access_token
+                document.cookie = "SI-CAFE=" + token + ";path:/";
+                window.location.href = '/api/order/product'
+            }
+        })
+    });
+
+
+</script>
 </body>
 </html>

@@ -151,11 +151,11 @@
 </header>
 <section class="home" id="home">
     <div class="home-text">
-        <h1>Start Your Day <br>With Coffee</h1>
+        <h1>Start Your Day <br>With Coffee <br> By Flower Cafe</h1>
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti iste voluptatibus soluta adipisci
             quaerat laboriosam ducimus suscipit harum eum ex quisquam maxime dignissimos sapiente nam quidem, cumque
             doloremque, aspernatur itaque.</p>
-        <a href="/dinein/registration" class="btn">Pesan Sekarang</a>
+        <a href="/dinein/registration" class="btn">Order Now</a>
     </div>
     <div class="home-img">
         <img src="main.jpeg" alt="">
@@ -166,7 +166,8 @@
         <img src="owner.jpeg" alt="">
     </div>
     <div class="owner-text">
-        <h2>Our Owner</h2>
+        <h1>Our Owner</h1>
+        <h2>Jisoo Kim</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut molestias deleniti aliquid quas ex eius
             consequatur perferendis eveniet tempora quasi, amet quia consectetur dicta maxime nostrum magni
             voluptatibus eum adipisci?</p>

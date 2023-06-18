@@ -7,8 +7,11 @@ use App\Models\DetailTransactions;
 use App\Models\Products;
 use App\Models\Transactions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Token;
 
 class TransactionsController extends Controller
 {
@@ -36,8 +39,13 @@ class TransactionsController extends Controller
 
     public function cart(Request $request): View
     {
-        $transactions = $this->getTransactionWithCustomerName($request->session()->get('session_token'));
-        $carts = $this->getProductTransactionWithProduct($request->session()->get('session_token'));
+//        dd($request->header());
+        $jwt = $_COOKIE['SI-CAFE'];
+        $payload = JWTAuth::decode(new Token($jwt));
+        $id = $payload->getClaims()['transaction']->getValue();
+
+        $transactions = $this->getTransactionWithCustomerName($id);
+        $carts = $this->getProductTransactionWithProduct($id);
         $products = null;
 
 
@@ -55,7 +63,7 @@ class TransactionsController extends Controller
 //                    ->where('productCategory', 'beverage')->get();
 //            }
 
-        $totalProductCart = DetailTransactions::where('transactionid', $request->session()->get('session_token'))->sum('quantity');
+        $totalProductCart = DetailTransactions::where('transactionid', $id)->sum('quantity');
 
         return view('order.order', ['products' => $products, 'transactions' => $transactions, 'carts' => $carts, 'totalProduct' => $totalProductCart]);
     }

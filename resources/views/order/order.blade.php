@@ -13,6 +13,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
 </head>
 <body>
     <div class="container h-100">
@@ -22,7 +24,7 @@
                     <div class="card-body">
                         <div class="">
                             <!-- Filter -->
-                            <form action="{{route("dinein.cart")}}" method="get">
+                            <form action="/api/cart" method="get">
                                 <label for="filter">Pilih Kategori</label>
                                 <div class="d-flex gap-2">
                                     <select name="filter" id="filter" class="form-select w-50">
@@ -104,7 +106,7 @@
                                                 <tbody>
                                                 @isset($carts)
                                                     @foreach ($carts as $cart)
-                                                        <form action="{{route("deleteProduct")}}" method="post">
+                                                        <form action="/api/cart" method="DELETE">
                                                             @csrf
                                                             <tr>
                                                                 <td>{{ $cart->productName }}</td>
@@ -148,52 +150,66 @@
                                     <th scope="col">Category</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($products as $product)
-                                    <!-- trigger modal -->
-                                    <tr data-bs-toggle="modal" data-bs-target="#staticBackdrop-all-{{$product->id}}" style="cursor: pointer;">
+                                    <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $product->productCategory }}</td>
                                         <td>{{ $product->productName }}</td>
                                         <td>{{ $product->priceView }}</td>
-
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="staticBackdrop-all-{{$product->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <form action="{{route("addTrxProduct")}}" method="post">
-                                                @csrf
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Order Quantity</h1>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <label for="staticEmail" class="col-sm-5 col-form-label">Product Name</label>
-                                                                <div class="col-sm-5">
-                                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ $product->productName }}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <label for="staticEmail" class="col-sm-5 col-form-label">Quantity</label>
-                                                                <div class="col-sm-5">
-                                                                    <input type="number" value="1" min="1" max="100" name="quantity" id="quantity" class="form-control">
-                                                                </div>
-                                                            </div>
-                                                            <input type="hidden" name="productId" id="productId" value="{{ $product->id }}">
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn button">Add to Cart</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm btn-add" id="{{$product->id}}">
+                                                +
+                                            </button>
+                                        </td>
                                     </tr>
                                 @endforeach
+{{--                                @foreach ($products as $product)--}}
+{{--                                    <!-- trigger modal -->--}}
+{{--                                    <tr data-bs-toggle="modal" data-bs-target="#staticBackdrop-all-{{$product->id}}" style="cursor: pointer;">--}}
+{{--                                        <td>{{ $loop->iteration }}</td>--}}
+{{--                                        <td>{{ $product->productCategory }}</td>--}}
+{{--                                        <td>{{ $product->productName }}</td>--}}
+{{--                                        <td>{{ $product->priceView }}</td>--}}
+
+{{--                                        <!-- Modal -->--}}
+{{--                                        <div class="modal fade" id="staticBackdrop-all-{{$product->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">--}}
+{{--                                            <form action="{{route("addTrxProduct")}}" method="post">--}}
+{{--                                                @csrf--}}
+{{--                                                <div class="modal-dialog modal-dialog-centered">--}}
+{{--                                                    <div class="modal-content">--}}
+{{--                                                        <div class="modal-header">--}}
+{{--                                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Order Quantity</h1>--}}
+{{--                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="modal-body">--}}
+{{--                                                            <div class="row">--}}
+{{--                                                                <label for="staticEmail" class="col-sm-5 col-form-label">Product Name</label>--}}
+{{--                                                                <div class="col-sm-5">--}}
+{{--                                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ $product->productName }}">--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="row">--}}
+{{--                                                                <label for="staticEmail" class="col-sm-5 col-form-label">Quantity</label>--}}
+{{--                                                                <div class="col-sm-5">--}}
+{{--                                                                    <input type="number" value="1" min="1" max="100" name="quantity" id="quantity" class="form-control">--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                            <input type="hidden" name="productId" id="productId" value="{{ $product->id }}">--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="modal-footer">--}}
+{{--                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
+{{--                                                            <button type="submit" class="btn button">Add to Cart</button>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </form>--}}
+{{--                                        </div>--}}
+{{--                                    </tr>--}}
+{{--                                @endforeach--}}
                                 </tbody>
                             </table>
                         </div>
@@ -204,4 +220,40 @@
 
     </div>
 </body>
+<script>
+
+
+    const btnAdd = document.querySelectorAll('.btn-add');
+
+    btnAdd.forEach(item => {
+        item.onclick = () => {
+
+            console.info(item.id)
+            $.ajax({
+                url: '/api/cart',
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': "{{csrf_token()}}"
+                },
+                data: {
+                    productId: item.id,
+                    transaction_id: {{$transaction->id}},
+                    quantity: 1
+                },
+                success: function (data){
+                    new Noty({
+                        theme: 'sunset',
+                        type: 'success',
+                        layout: 'bottom',
+                        text: data.message,
+                        timeout: 1000
+                    }).show();
+                },
+                error: function (data){
+
+                }
+            })
+        }
+    })
+</script>
 </html>

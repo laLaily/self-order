@@ -17,6 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string("customerName");
             $table->string("customerPhone");
+//            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+//            $table->timestamps();
         });
     }
 

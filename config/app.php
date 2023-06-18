@@ -196,6 +196,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
 
 
     ],
@@ -215,6 +217,8 @@ return [
 
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ])->toArray(),
 
 ];
