@@ -39,6 +39,7 @@ class TransactionsController extends Controller
 
     public function cart(Request $request): View
     {
+        return view('order.order');
 //        dd($request->header());
         $jwt = $_COOKIE['SI-CAFE'];
         $payload = JWTAuth::decode(new Token($jwt));
@@ -65,7 +66,7 @@ class TransactionsController extends Controller
 
         $totalProductCart = DetailTransactions::where('transactionid', $id)->sum('quantity');
 
-        return view('order.order', ['products' => $products, 'transactions' => $transactions, 'carts' => $carts, 'totalProduct' => $totalProductCart]);
+//        return view('order.order', ['products' => $products, 'transactions' => $transactions, 'carts' => $carts, 'totalProduct' => $totalProductCart]);
     }
 
     public function getTransactionWithCustomerName($id){

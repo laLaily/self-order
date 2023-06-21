@@ -53,7 +53,8 @@ class Customers extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [
-            'role' => 'customers'
+            'role' => 'customers',
+            'phone' => $this->attributes['customerPhone']
         ];
     }
 }

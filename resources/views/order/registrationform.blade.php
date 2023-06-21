@@ -144,8 +144,12 @@
             },
             success: function (data){
                 const token = data.token.original.access_token
-                document.cookie = "SI-CAFE=" + token + ";path:/";
-                window.location.href = '/api/order/product'
+                document.cookie = "SI-CAFE=" + token + ";path=/";
+                window.location.href = '/dinein/order/products'
+
+            },
+            error: function (data) {
+
             }
         })
     });
