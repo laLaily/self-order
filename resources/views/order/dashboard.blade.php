@@ -135,6 +135,12 @@
             font-size: 0.938rem;
             margin: 0.5rem 0.11rem;
         }
+
+        @media screen and (max-width: 1000px) {
+            header{
+                display: none;
+            }
+        }
     </style>
 </head>
 

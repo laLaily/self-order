@@ -55,13 +55,6 @@ class TransactionsController extends Controller
             $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
                 ->where('productCategory', $request->input('filter'))->get();
         }
-//            if ($request->old('filter') == 'food') {
-//                $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
-//                    ->where('productCategory', 'food')->get();
-//            } else if ($request->old('filter') == 'beverage') {
-//                $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
-//                    ->where('productCategory', 'beverage')->get();
-//            }
 
         $totalProductCart = DetailTransactions::where('transactionid', $id)->sum('quantity');
 

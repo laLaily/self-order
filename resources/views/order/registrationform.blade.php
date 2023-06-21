@@ -143,9 +143,7 @@
                 'customerPhone': $('#customerPhone').val()
             },
             success: function (data){
-                const token = data.token.original.access_token
-                document.cookie = "SI-CAFE=" + token + ";path:/";
-                window.location.href = '/api/order/product'
+                window.location.href = "/order/products";
             }
         })
     });

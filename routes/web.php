@@ -13,13 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('order.dashboard');
-});
+Route::view('/', 'order.dashboard');
 
 Route::prefix('/dinein')->group(function (){
     Route::get('/registration', [\App\Http\Controllers\CustomersController::class, 'register']);
-    Route::post('/registration/process', [\App\Http\Controllers\TransactionsController::class, 'createTransaction'])->name('addCustomer');
+//    Route::post('/registration/process', [\App\Http\Controllers\TransactionsController::class, 'createTransaction'])->name('addCustomer');
     Route::get('/order/products', [\App\Http\Controllers\TransactionsController::class, 'cart'])
     ->name('dinein.cart');
     Route::post('/order/products/filter', [\App\Http\Controllers\TransactionsController::class, 'filterByCategory']) ->name('filterProduct');
