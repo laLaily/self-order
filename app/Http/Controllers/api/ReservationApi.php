@@ -7,10 +7,9 @@ use App\Models\Customers;
 use App\Models\Transactions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\View\View;
-use Tymon\JWTAuth\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 //INI RENAME TRANSACTION CONTROLLER
 class ReservationApi extends Controller
@@ -19,7 +18,7 @@ class ReservationApi extends Controller
         return view('order.registrationform');
     }
 
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse
     {
         $customer = Customers::create($request->only(['customerName', 'customerPhone']));
 
@@ -31,30 +30,29 @@ class ReservationApi extends Controller
 
         $data2 = Transactions::where('customerId', $transaction->customerId)->orderBy('id', 'desc')->first();
 
-        $token = auth('api-customer')->claims(['transaction'=> $data2->id])->login($customer);
+        $token = auth('api-customer')
+            ->claims(['transactionId'=> $data2->id])
+            ->login($customer);
 
-//        return response()->json(auth()->user());
-
-//        setcookie('X-SI-CAFE', $token);
 
         return response()->json([
             'status' => 'success',
             'message' => 'oke',
             'token' => $this->respondWithToken($token)
-        ], 201);
-
-//        return $this->respondWithToken($token);
+        ], 201)
+            ->withCookie(cookie('SI-CAFE', $token, '60', '/'));
     }
 
 
 
-    public function me(): JsonResponse
+    public function me(Request $request): JsonResponse
     {
-//        dd(auth());
-//        $user = (new JWTAuth)->parseToken()->authenticate();
-        $cookie = Cookie::get('X-SI-CAFE');
+        $jwt = $request->bearerToken();
+//        $valid = JWTAuth::setToken($jwt)->check();
 
-        dd($cookie);
+        return response()->json([
+            'status' => $jwt
+        ]);
     }
 
     protected function respondWithToken($token)

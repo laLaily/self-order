@@ -8,6 +8,7 @@ use App\Models\Products;
 use App\Models\Transactions;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -15,26 +16,9 @@ use Tymon\JWTAuth\Token;
 
 class TransactionApi extends Controller
 {
-    public function cart(Request $request): View
+    public function cart(Request $request): View|string
     {
-        $jwt = $_COOKIE['SI-CAFE'];
-        $payload = JWTAuth::decode(new Token($jwt));
-        $id = $payload->getClaims()['transaction']->getValue();
-
-        $transactions = $this->getTransactionWithCustomerName($id);
-        $carts = $this->getProductTransactionWithProduct($id);
-        $products = null;
-
-        $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")->get();
-
-        if($request->has('filter')){
-            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
-                ->where('productCategory', $request->input('filter'))->get();
-        }
-
-        $totalProductCart = DetailTransactions::where('transactionid', $id)->sum('quantity');
-
-        return view('order.order', ['products' => $products, 'transactions' => $transactions, 'carts' => $carts, 'totalProduct' => $totalProductCart]);
+        return Blade::render('oke');
     }
 
     public function show($id){
