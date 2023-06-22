@@ -30,6 +30,9 @@ class DetailTransactions extends Model
 
     protected $table = 'detailtransactions';
 
+    protected $guarded = ['id'];
+
+    protected $primaryKey = 'transactionId';
     public function products() : BelongsTo
     {
         return $this->BelongsTo(Products::class, 'productId');

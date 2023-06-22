@@ -31,7 +31,7 @@ class ReservationApi extends Controller
         $data2 = Transactions::where('customerId', $transaction->customerId)->orderBy('id', 'desc')->first();
 
         $token = auth('api-customer')
-            ->claims(['transaction'=> $data2->id])
+            ->claims(['transactionId'=> $data2->id])
             ->login($customer);
 
 
@@ -40,7 +40,7 @@ class ReservationApi extends Controller
             'message' => 'oke',
             'token' => $this->respondWithToken($token)
         ], 201)
-            ->cookie('SI-CAFE', $token);
+            ->withCookie(cookie('SI-CAFE', $token, '60', '/'));
     }
 
 

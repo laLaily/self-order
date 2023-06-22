@@ -143,7 +143,7 @@
                 'customerPhone': $('#customerPhone').val()
             },
             success: function (data){
-                window.location.href = "/order/products";
+                window.location.href = "/dinein/order/products";
             }
         })
     });

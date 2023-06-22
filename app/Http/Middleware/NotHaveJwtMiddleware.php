@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class HasJwtTokenMiddleware
+class NotHaveJwtMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,9 @@ class HasJwtTokenMiddleware
      */
     public function handle(Request $request, Closure $next, $key = "SI-CAFE")
     {
-        if(isset($_COOKIE[$key])){
-            $request->headers->set('Authorization', 'Bearer ' . $_COOKIE[$key]);
+        if(!isset($_COOKIE[$key])){
             return $next($request);
         }
-        return redirect('/dinein/registration');
+        return redirect('/dinein/order/products');
     }
 }

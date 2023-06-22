@@ -40,26 +40,6 @@ class TransactionsController extends Controller
     public function cart(Request $request): View
     {
         return view('order.order');
-//        dd($request->header());
-        $jwt = $_COOKIE['SI-CAFE'];
-        $payload = JWTAuth::decode(new Token($jwt));
-        $id = $payload->getClaims()['transaction']->getValue();
-
-        $transactions = $this->getTransactionWithCustomerName($id);
-        $carts = $this->getProductTransactionWithProduct($id);
-        $products = null;
-
-
-        $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")->get();
-
-        if($request->has('filter')){
-            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
-                ->where('productCategory', $request->input('filter'))->get();
-        }
-
-        $totalProductCart = DetailTransactions::where('transactionid', $id)->sum('quantity');
-
-//        return view('order.order', ['products' => $products, 'transactions' => $transactions, 'carts' => $carts, 'totalProduct' => $totalProductCart]);
     }
 
     public function getTransactionWithCustomerName($id){
