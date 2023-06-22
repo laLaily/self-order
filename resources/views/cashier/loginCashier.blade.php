@@ -108,10 +108,10 @@
             <h1>Login</h1>
             <hr>
             <p>Login Cashier Flower Cafe</p>
-            <label for="username">Username</label>
-            <input name="username" type="text">
-            <label for="password">Password</label>
-            <input name="password" type="password">
+            <label for="">Username</label>
+            <input name="username" id="username" type="text">
+            <label for="">Password</label>
+            <input name="pass" id="pass" type="password">
             <button type="submit">Login</button>
         </form>
     </div>

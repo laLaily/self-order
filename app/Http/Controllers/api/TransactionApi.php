@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DetailTransactions;
 use App\Models\Products;
 use App\Models\Transactions;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -67,7 +68,7 @@ class TransactionApi extends Controller
 
         $paymentCode = Str::uuid();
 
-//        $transaction = Transactions::findOrFail(session('session_token'));
+        $transaction = Transactions::findOrFail($id);
 
         $transaction->update(['paymentCode' => $paymentCode]);
 
@@ -81,5 +82,17 @@ class TransactionApi extends Controller
 //        } else {
 //            return redirect('/dinein/order/products');
 //        }
+    }
+
+    public function update($id, Request $request)
+    {
+        $status = Transactions::find($id);
+
+        $status->status = $request->input('success');
+        $status->updatedAt = Carbon::now()->setTimezone('Asia/Phnom_Penh');
+        $status->cashierId = 12;
+        $status->save();
+
+//        return redirect('/cashier/transaction/view');
     }
 }

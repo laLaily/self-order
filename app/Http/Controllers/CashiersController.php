@@ -18,12 +18,15 @@ class CashiersController extends Controller
     public function loginCheck(Request $request){
 
         $cashier = Cashiers::where('username', $request->input('username'))->first();
-        if ($request->input('password') == $cashier->password){
-            $request->session()->put('token', $cashier->id);
-            return redirect('cashier/dashboard');
-        } else {
-            return redirect('/cashier/login');
-        }
+
+            if ($request->input('pass') == $cashier->password){
+                $request->session()->put('token', $cashier->id);
+                return redirect('/cashier/dashboard');
+            } else {
+                return redirect('/cashier/login');
+            }
+
+
     }
 
     public function addCashier(Request $request){
