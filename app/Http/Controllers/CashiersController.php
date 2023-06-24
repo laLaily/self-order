@@ -71,13 +71,14 @@ class CashiersController extends Controller
 
 
     public function addProduct(Request $request){
-        $product = new Products();
-        $product->productName = $request->input('productName');
-        $product->productCategory = $request->input('productCategory');
-        $product->productPrice = $request->input('productPrice');
-        $product->productStock = $request->input('productStock');
-        $product->save();
-        return redirect('/cashier/product/view');
+        return view('cashier.addProductCashier');
+//        $product = new Products();
+//        $product->productName = $request->input('productName');
+//        $product->productCategory = $request->input('productCategory');
+//        $product->productPrice = $request->input('productPrice');
+//        $product->productStock = $request->input('productStock');
+//        $product->save();
+//        return redirect('/cashier/product/view');
     }
 
     public function deleteProduct($id){

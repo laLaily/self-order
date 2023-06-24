@@ -22,4 +22,6 @@ class HasJwtTokenMiddleware
         }
         return redirect('/dinein/registration');
     }
+
+
 }

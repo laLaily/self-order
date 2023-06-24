@@ -64,19 +64,18 @@ class DetailTransactionApi extends Controller
         ], 201);
     }
 
-    public function destroy(Request $request){
-        $jwt = $_COOKIE['SI-CAFE'];
-        $payload = JWTAuth::decode(new Token($jwt));
-        $id = $payload->getClaims()['transaction']->getValue();
+    public function show($id){
+        $trx = Transactions::join('customers', 'customers.id', '=', 'transactions.customerId')
+            ->where('transactions.id', $id)->get();
 
-        $data = DetailTransactions::where('transactionId', $id)->where('productId', $request->input('productId'))->first();
+        $details = Transactions::join('detailtransactions', 'transactions.id', '=', 'detailtransactions.transactionId')
+            ->join('products', 'products.id', '=', 'detailtransactions.productId')
+            ->where('transactions.id', $id)
+            ->get();
 
-        $dine = Transactions::find($id);
-        $dine->totalPrice -= $data->quantityPrice;
-        $dine->save();
-
-        DetailTransactions::where('transactionId', $id)->where('productId', $request->input('productId'))->delete();
-
-        return redirect('/api/order/product');
+        return response()->json([
+            'transaction' => $trx,
+            'detailTransactions' => $details
+        ], 201);
     }
 }

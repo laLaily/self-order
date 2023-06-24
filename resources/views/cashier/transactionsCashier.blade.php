@@ -12,8 +12,22 @@
 
 </head>
 <body>
+<nav class="navbar sticky-top" style="background-color: #efefef">
+    <div class="container">
+        <a class="navbar-brand" href="/cashier/dashboard">
+            <img src="{{asset('/logo.jpg')}}" alt="Logo" width="40" class="d-inline-block align-text-center p-0">
+            Flower Cafe
+        </a>
+        <div class="navbar-nav pe-3">
+            <a type="button" class="btn position-relative border border-dark btn-light" href="/cashier/product/view">
+                View Product
+            </a>
+        </div>
+    </div>
+</nav>
+<br>
 <div class="transaction">
-    <table class="table">
+    <table class="table" id="transactions">
         <thead>
         <tr>
             <th scope="col">Id</th>
@@ -26,36 +40,39 @@
             <th scope="col">Update Status</th>
         </tr>
         </thead>
-        <tbody>
-        @foreach ($transactions as $dinein)
-            <tr style="cursor: default;">
-                <td>{{ $dinein->id }}</td>
-                <td>{{ $dinein->transactionDate }}</td>
-                <td>{{ $dinein->customerName }}</td>
-                <td>{{ $dinein->priceView }}</td>
-                <td>{{ $dinein->status }}</td>
-                <td>{{ $dinein->updatedAt }}</td>
-                <td><a href="{{route('cashier.viewDetailTransaction', ['id'=>$dinein->id])}}" class="btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                        </svg>
-                    </a></td>
-                <td>
-                    <form action="{{route('cashier.updateStatus', ['id'=>$dinein->id])}}" method="post">
-                        @csrf
-                        <button type="submit" class="btn" id="success" name="success" value="Success">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
-                                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-                                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
-                            </svg>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
+{{--        <tbody>--}}
+{{--        @foreach ($transactions as $dinein)--}}
+{{--            <tr style="cursor: default;">--}}
+{{--                <td>{{ $dinein->id }}</td>--}}
+{{--                <td>{{ $dinein->transactionDate }}</td>--}}
+{{--                <td>{{ $dinein->customerName }}</td>--}}
+{{--                <td>{{ $dinein->priceView }}</td>--}}
+{{--                <td>{{ $dinein->status }}</td>--}}
+{{--                <td>{{ $dinein->updatedAt }}</td>--}}
+{{--                <td><a href="{{route('cashier.viewDetailTransaction', ['id'=>$dinein->id])}}" class="btn">--}}
+{{--                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">--}}
+{{--                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />--}}
+{{--                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />--}}
+{{--                        </svg>--}}
+{{--                    </a></td>--}}
+{{--                <td>--}}
+{{--                    <form action="{{route('cashier.updateStatus', ['id'=>$dinein->id])}}" method="post">--}}
+{{--                        @csrf--}}
+{{--                        <button type="submit" class="btn" id="success" name="success" value="Success">--}}
+{{--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">--}}
+{{--                                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />--}}
+{{--                                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />--}}
+{{--                            </svg>--}}
+{{--                        </button>--}}
+{{--                    </form>--}}
+{{--                </td>--}}
+{{--            </tr>--}}
+{{--        @endforeach--}}
+{{--        </tbody>--}}
     </table>
 </div>
+<script>
+
+</script>
 </body>
 </html>

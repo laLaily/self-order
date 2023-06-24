@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin</title>
+    <title>Login Cashier</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: url(bg.png);
+            /*background: url(bg.png);*/
         }
 
         .container {
@@ -103,7 +103,7 @@
 <body>
 <div class="container">
     <div class="login">
-        <form action="{{route('loginCashier')}}" method="post">
+{{--        <form action="{{route('loginCashier')}}" method="post">--}}
             @csrf
             <h1>Login</h1>
             <hr>
@@ -112,13 +112,34 @@
             <input name="username" id="username" type="text">
             <label for="">Password</label>
             <input name="pass" id="pass" type="password">
-            <button type="submit">Login</button>
+            <button type="submit" id="orderBtn">Login</button>
         </form>
     </div>
     <div class="right">
         <img src="kasir.png" alt="">
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script>
+    $('#orderBtn').click(function (){
+        $.ajax({
+            url: '/api/login',
+            method: 'POST',
+            header: {
+                'X-CSRF-TOKEN': "{{csrf_token()}}"
+            },
+            data: {
+                'username': $('#username').val(),
+                'pass': $('#pass').val()
+            },
+            success: function (){
+                window.location.href = "/cashier/dashboard";
+            },
+
+        })
+    });
+</script>
 </body>
 
 

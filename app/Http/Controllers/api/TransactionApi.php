@@ -16,6 +16,15 @@ use Tymon\JWTAuth\Token;
 
 class TransactionApi extends Controller
 {
+    public function index()
+    {
+        $trx = Transactions::selectRaw("*,CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView")
+            ->join('customers', 'customers.id', '=', 'transactions.customerId')->get();
+
+        return response()->json([
+            'products' => $trx
+        ], 201);
+    }
     public function cart(Request $request): View|string
     {
         return Blade::render('oke');

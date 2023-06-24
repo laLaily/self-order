@@ -30,6 +30,10 @@ class ProductApi extends Controller
         $product->productStock = $request->input('productStock');
         $product->save();
 
+        return response()->json([
+            'status' => 'success',
+            'message' => 'oke',
+        ], 201);
         //return redirect('/cashier/product/view');
     }
 

@@ -26,6 +26,10 @@ Route::get('products', [\App\Http\Controllers\api\ProductApi::class, 'index']);
 Route::post('reservation', [\App\Http\Controllers\api\ReservationApi::class, 'create'])
     ->name('reservation.create');
 
+Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
+
+Route::post('addProduct', [\App\Http\Controllers\api\ProductApi::class, 'create']);
+
 Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)
 ->get('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'create']);
 
