@@ -1,158 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran</title>
-    <style>
-        *{
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-            font-family: sans-serif;
-        }
-        body{
-            display: flex;
-            height: 100vh;
-            justify-content: center;
-            align-items: center;
-            background: url('bg.png');
-            background-size: cover;
-        }
-        .container{
-            width: 100%;
-            max-width: 650px;
-            background: rgba(0,0,0,0.5);
-            padding: 28px;
-            margin: 0 28px;
-            border-radius: 10px;
-            box-shadow: inset -2px 2px 2px white;
-        }
-        .form-title{
-            font-size: 26px;
-            font-weight: 600;
-            text-align: center;
-            padding-bottom: 6px;
-            color: white;
-            text-shadow: 2px 2px 2px black;
-            border-bottom: solid 1px white;
+@extends('layouts.customer')
 
-        }
-        .main-user-info{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 20px 0;
-        }
-        .user-input-box{
-            display: flex;
-            flex-wrap: wrap;
-            width: 50%;
-            padding-bottom: 15px;
-        }
-        .user-input-box label{
-            width: 95%;
-            color: white;
-            font-size: 20px;
-            margin: 5px 0;
-        }
-        .user-input-box input{
-            height: 40px;
-            width: 95%;
-            border-radius: 7px;
-            outline: none;
-            border: 1px solid grey;
-            padding: 0 10px;
-        }
-        .form-submit-btn input{
-            cursor: pointer;
-        }
-        .form-submit-btn{
-            margin-top: 40px;
-        }
-        .form-submit-btn input{
-            display: block;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 20px;
-            padding: 10px;
-            border: none;
-            border-radius: 3px;
-            color: black;
-            background:#950101 ;
-        }
-        .form-submit-btn input:hover{
-            background: #3D0000;
-            color: black;
-        }
-        @media(max-width: 600px){
-            .container{
-                min-width: 280px;
-            }
-            .user-input-box{
-                margin-bottom: 20px;
-                width: 100%;
-            }
-            .user-input-box:nth-child(2n){
-                justify-content: space-between;
-            }
-            .main-user-info{
-                max-height: 380px;
-                overflow: auto;
-            }
-            .main-user-info::-webkit-scrollbar{
-                width: 0;
-            }
-        }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
-</head>
-<body>
-<div class="container">
-    <h1 class="form-title">Customer Forms</h1>
-    <form action="/api/reservation" method="post" name="registration">
-        @csrf
-        <div class="main-user-info">
-            <div class="user-input-box">
-                <label for="">Nama Customer</label>
-                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="name" autocomplete="off">
+@section('content')
+    <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="row g-0">
+            <div class="col-md-6">
+                <div class="video">
+                    <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/watch?v=TT9wIWPlOYs" data-bs-target="#videoModal">
+                        <span></span>
+                    </button>
+                </div>
             </div>
-            <div class="user-input-box">
-                <label for="">Nomor Telepon</label>
-                <input type="text" class="form-control" id="customerPhone" name="customerPhone" placeholder="phone" autocomplete="off">
+            <div class="col-md-6 bg-dark d-flex align-items-center">
+                <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                    <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
+                    <h1 class="text-white mb-4">Book A Table Online</h1>
+                    <form action="/api/reservation" method="post" name="registration">
+                        @csrf
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" placeholder="Your Name" id="customerName" autocomplete="off">
+                                    <label for="customerName">Your Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" placeholder="Your Phone" id="customerPhone" autocomplete="off">
+                                    <label for="customerPhone">Your Phone</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit" id="orderBtn">Book Now</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="form-submit-btn">
-            <input type="submit" value="Order Sekarang" id="orderBtn">
+    </div>
+
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 16:9 aspect ratio -->
+                    <div class="ratio ratio-16x9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
+                                allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
-</div>
-<script>
+    </div>
+@endsection
 
-    $('#orderBtn').click(function (event){
-        event.preventDefault()
-        submit()
-    });
+@push('script')
+    <script>
+        $('#orderBtn').on('click', function (event){
+            console.info($('#customerName').val())
+            event.preventDefault()
+            submit()
+        });
 
-    function submit(){
-        $.ajax({
-            url: '/api/reservation',
-            method: 'POST',
-            header: {
-                'X-CSRF-TOKEN': "{{csrf_token()}}"
-            },
-            data: {
-                'customerName': $('#customerName').val(),
-                'customerPhone': $('#customerPhone').val()
-            },
-            success: function (data){
-                window.location.href = "/dinein/order/products";
-            }
-        })
-    }
+        function submit(){
+            $.ajax({
+                url: '/api/reservation',
+                method: 'POST',
+                header: {
+                    'X-CSRF-TOKEN': "{{csrf_token()}}"
+                },
+                data: {
+                    'customerName': $('#customerName').val(),
+                    'customerPhone': $('#customerPhone').val()
+                },
+                success: function (data){
+                    window.location.href = "/dinein/order/products";
+                }
+            })
+        }
+    </script>
+@endpush
 
-</script>
-</body>
-</html>

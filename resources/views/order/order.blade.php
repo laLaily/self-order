@@ -1,79 +1,40 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Menu</title>
+@extends('layouts.customer')
 
-    <link rel="stylesheet" href="{{ mix('css/templateHeader.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/templateFooter.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+@section('content')
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
+                <h1 class="mb-5">All Menu</h1>
+            </div>
+            <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+                <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane fade show p-0 active">
+                        <div class="row g-4" id="products">
 
-    <style>
-        input[type="text"]{
-            width: 30px;
-            border: none;
-            text-align: center;
-        }
-        input[type="text"]:focus, button{
-            outline: none;
-            box-shadow: none;
-        }
-    </style>
-
-</head>
-<body>
-<nav class="navbar sticky-top" style="background-color: #efefef">
-    <div class="container">
-        <a class="navbar-brand" href="/dinein/order/products">
-            <img src="{{asset('/logo.jpg')}}" alt="Logo" width="40" class="d-inline-block align-text-center p-0">
-            Flower Cafe
-        </a>
-        <div class="navbar-nav pe-3">
-{{--            <a type="button" class="btn position-relative border border-dark btn-light" href="#">--}}
-{{--                <i class="bi bi-cart text-black fs-5"></i>--}}
-{{--                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info" id="total-item">--}}
-{{--                    0--}}
-{{--                <span class="visually-hidden">Total Cart</span>--}}
-{{--                </span>--}}
-{{--            </a>--}}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
-
-<div class="container pt-4" >
-    <div class="row justify-content-center gap-4" id="products">
-
-    </div>
-    <div class="container sticky-bottom text-end pb-3 ">
-        <a type="button" class="btn position-relative p-0 m-0" href="#" id="checkout">
-            <i class="bi bi-cart text-success fs-1">
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill border-1 bg-warning p-1 text-black fs-6" id="total-item">
+        <div class="container position-fixed fixed-bottom text-end pb-3 ">
+            <a type="button" class="btn p-0 m-0" href="#" id="checkout">
+                <i class="bi bi-cart-fill text-info fs-1 position-relative">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill border-1 bg-warning ps-2 pe-2 text-white fs-6" id="total-item">
                     0
                 <span class="visually-hidden">Total Cart</span>
-            </span>
-            </i>
-        </a>
+                </span>
+                </i>
+            </a>
+        </div>
     </div>
-</div>
-</body>
+@endsection
 
-<footer class="p-3 text-center">
-    &copy; 2021
-</footer>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<script>
-
+@push('script')
+    <script>
         $(document).ready(function () {
             $.ajax({
                 type: 'GET',
@@ -84,23 +45,25 @@
                     let card = ''
                     for (const product of products) {
                         card += `
-                            <div class="card col-8 col-md-5 col-xl-3 col-xxl-3 rounded-3 p-0 border-0 border-bottom shadow-sm">
-                                <div class="position-relative">
-                                    <img src="{{asset('/makanan.jpg')}}" class="card-img-top rounded-5" alt="card-img">
-                                    <span class="position-absolute top-100 start-100 translate-middle d-flex flex-row pb-2 rounded-pill mt-5" style="padding-right:6rem">
-                                            <button type="button" class="btn btn-danger border p-0 fs-3 me-1 rounded-circle edit-product" id="${product.id}"
-                                            value="-1"><i class="bi bi-dash"></i></button>
-                                            <input type="text" class="text-primary" value="${product.total??0}" id="inp-${product.id}" disabled>
-                                            <button type="button" class="btn btn-success border p-0 fs-3 ms-1 rounded-circle edit-product" id="${product.id}"
-                                            value="1"><i class="bi bi-plus"></i></button>
-                                    </span>
+                            <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="/assets/img/menu-1.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>${product.productName}</span>
+                                                <span class="text-primary">${product.productPrice}</span>
+                                            </h5>
+                                            <small class="d-flex fs-6 ms-auto">
+                                                <button type="button" class=" btn-danger border rounded-circle edit-product" id="${product.id}"
+                                                value="-1"><i class="bi bi-dash"></i></button>
+                                                <input type="text" class="text-primary text-center border-0" value="${product.total??0}" id="inp-${product.id}" disabled style="width: 2rem">
+                                                <button type="button" class=" btn-success border rounded-circle edit-product" id="${product.id}"
+                                                value="1"><i class="bi bi-plus"></i>
+                                                </button>
+                                            </small>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <div class="card-body">
-                                    <p class="card-text pb-0 mb-0">${product.productName}</p>
-                                    <p class="card-text fw-bold">${product.priceView}</p>
-                                </div>
-                            </div>
                         `
                     }
                     content.innerHTML = card
@@ -110,57 +73,56 @@
                 }
             })
             sendEvent(this)
-    });
+        });
 
 
-    async function getProduct(url){
-        const response = await fetch(url);
-        const json = await response.json()
-        return await json;
-    }
+        async function getProduct(url){
+            const response = await fetch(url);
+            const json = await response.json()
+            return await json;
+        }
 
-    function sendEvent(el){
-        $.ajax({
-            url: '/api/cart',
-            method: 'GET',
-            data: {
-                productId: el.id,
-                quantity: el.value,
-            },
-            success: function (data){
-                if(data.status === 'success'){
+        function sendEvent(el){
+            $.ajax({
+                url: '/api/cart',
+                method: 'GET',
+                data: {
+                    productId: el.id,
+                    quantity: el.value,
+                },
+                success: function (data){
+                    if(data.status === 'success'){
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: data.message,
+                            showConfirmButton: false
+                        })
+                    }
+
+                    if(data.transactionId){
+                        $('#checkout').attr('href', '/checkout/' + data.transactionId)
+                    }
+
+                    const value = document.getElementById('inp-'+el.id)?.value ?? 0
+                    if(value)
+                        document.getElementById('inp-'+el.id).value = parseInt(value) + parseInt(el.value)
+
+                    $('#total-item').html(data.total)
+                },
+                error: function (data){
+                    console.info(data)
+                    const response = JSON.parse(data.responseText)
                     Swal.fire({
                         position: 'center',
-                        icon: 'success',
-                        title: data.message,
+                        icon: 'error',
+                        title: response.message,
                         showConfirmButton: false
                     })
                 }
-
-                if(data.transactionId){
-                    $('#checkout').attr('href', '/checkout/' + data.transactionId)
-                }
+            })
+        }
 
 
-                const value = document.getElementById('inp-'+el.id)?.value ?? 0
-                if(value)
-                    document.getElementById('inp-'+el.id).value = parseInt(value) + parseInt(el.value)
-
-                $('#total-item').html(data.total)
-            },
-            error: function (data){
-                console.info(data)
-                const response = JSON.parse(data.responseText)
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: response.message,
-                    showConfirmButton: false
-                })
-            }
-        })
-    }
-
-
-</script>
-</html>
+    </script>
+@endpush

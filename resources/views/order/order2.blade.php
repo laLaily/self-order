@@ -18,6 +18,18 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <style>
+        input[type="text"]{
+            width: 30px;
+            border: none;
+            text-align: center;
+        }
+        input[type="text"]:focus, button{
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+
 </head>
 <body>
 <nav class="navbar sticky-top" style="background-color: #efefef">
@@ -43,7 +55,7 @@
 
     </div>
     <div class="container sticky-bottom text-end pb-3 ">
-        <a type="button" class="btn position-relative p-0 m-0" href="" id="checkout">
+        <a type="button" class="btn position-relative p-0 m-0" href="#" id="checkout">
             <i class="bi bi-cart text-success fs-1">
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill border-1 bg-warning p-1 text-black fs-6" id="total-item">
                     0
@@ -75,9 +87,12 @@
                             <div class="card col-8 col-md-5 col-xl-3 col-xxl-3 rounded-3 p-0 border-0 border-bottom shadow-sm">
                                 <div class="position-relative">
                                     <img src="{{asset('/makanan.jpg')}}" class="card-img-top rounded-5" alt="card-img">
-                                    <span class="position-absolute top-100 start-100 translate-middle">
-                                    <button type="button" class="btn ${product.total ? 'btn-danger':'btn-success'} border p-0 me-3 mb-3 fs-2 rounded-circle add-product" id="${product.id}"
-                                    value="${product.total ? '0':'1'}"><i class="bi ${product.total ? 'bi-dash':'bi-plus'}"></i></button>
+                                    <span class="position-absolute top-100 start-100 translate-middle d-flex flex-row pb-2 rounded-pill mt-5" style="padding-right:6rem">
+                                            <button type="button" class="btn btn-danger border p-0 fs-3 me-1 rounded-circle edit-product" id="${product.id}"
+                                            value="-1"><i class="bi bi-dash"></i></button>
+                                            <input type="text" class="text-primary" value="${product.total??0}" id="inp-${product.id}" disabled>
+                                            <button type="button" class="btn btn-success border p-0 fs-3 ms-1 rounded-circle edit-product" id="${product.id}"
+                                            value="1"><i class="bi bi-plus"></i></button>
                                     </span>
                                 </div>
 
@@ -89,7 +104,7 @@
                         `
                 }
                 content.innerHTML = card
-                $('#products').on('click', '.add-product', function() {
+                $('#products').on('click', '.edit-product', function() {
                     sendEvent(this)
                 });
             }
@@ -97,10 +112,11 @@
         sendEvent(this)
     });
 
+
     async function getProduct(url){
         const response = await fetch(url);
-        const products = await response.json()
-        return await products;
+        const json = await response.json()
+        return await json;
     }
 
     function sendEvent(el){
@@ -108,8 +124,8 @@
             url: '/api/cart',
             method: 'GET',
             data: {
-                productId: el.id || 0,
-                quantity: el.value
+                productId: el.id,
+                quantity: el.value,
             },
             success: function (data){
                 if(data.status === 'success'){
@@ -121,10 +137,15 @@
                     })
                 }
 
-                const icon = el.querySelector('i')
-                loadBtn(el, icon)
+                if(data.transactionId){
+                    $('#checkout').attr('href', '/checkout/' + data.transactionId)
+                }
 
-                $('#checkout').attr('href', '/checkout/' + data.transactionId)
+
+                const value = document.getElementById('inp-'+el.id)?.value ?? 0
+                if(value)
+                    document.getElementById('inp-'+el.id).value = parseInt(value) + parseInt(el.value)
+
                 $('#total-item').html(data.total)
             },
             error: function (data){
@@ -138,27 +159,8 @@
                 })
             }
         })
-        const icon = el.querySelector('i')
-        loadBtn(el, icon, 1)
     }
 
-    function loadBtn(el, icon, start = -1){
-        if(el.value === "1"){
-            el.classList.remove('btn-success')
-            icon.classList.remove('bi-plus')
-
-            el.classList.add('btn-danger')
-            icon.classList.add('bi-dash')
-            el.value = start === 1 ? '1' : "0"
-        }else if(el.value === "0"){
-            el.classList.remove('btn-danger')
-            icon.classList.remove('bi-dash')
-
-            el.classList.add('btn-success')
-            icon.classList.add('bi-plus')
-            el.value = start === 1 ? '0' : "1"
-        }
-    }
 
 </script>
 </html>

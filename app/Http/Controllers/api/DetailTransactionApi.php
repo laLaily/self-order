@@ -66,7 +66,8 @@ class DetailTransactionApi extends Controller
 
                 return response()->json([
                    'status' => 'success',
-                   'message' => "{$dataprod->productName} berhasil dihapus"
+                   'message' => "{$dataprod->productName} berhasil dihapus",
+                    'total' => Transactions::find($transactionId)->products()->count(),
                 ]);
             }
 
