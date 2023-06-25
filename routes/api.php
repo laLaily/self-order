@@ -21,13 +21,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('products', [\App\Http\Controllers\api\ProductApi::class, 'index']);
+Route::middleware(\App\Http\Middleware\NotHaveJwtMiddleware::class)->group(function (){
+    Route::post('reservation', [\App\Http\Controllers\api\ReservationApi::class, 'create'])
+        ->name('reservation.create');
+});
 
-Route::post('reservation', [\App\Http\Controllers\api\ReservationApi::class, 'create'])
-    ->name('reservation.create');
+Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(function (){
 
-Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)
-->get('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'create']);
+    Route::get('products', [\App\Http\Controllers\api\ProductApi::class, 'index']);
+
+    Route::get('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'create']);
+
+    Route::get('checkout/{transactionId}', [\App\Http\Controllers\api\CheckoutApi::class, 'show']);
+
+    Route::post('checkout/{transactionId}', [\App\Http\Controllers\api\CheckoutApi::class, 'store']);
+
+    Route::get('payment/{transactionId}', [\App\Http\Controllers\api\PaymentApi::class, 'show']);
+});
+
+
 
 Route::delete('cart',  [\App\Http\Controllers\api\DetailTransactionApi::class, 'destroy']);
 

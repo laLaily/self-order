@@ -112,7 +112,7 @@
 <body>
 <div class="container">
     <h1 class="form-title">Customer Forms</h1>
-{{--    <form action="/api/reservation" method="post">--}}
+    <form action="/api/reservation" method="post" name="registration">
         @csrf
         <div class="main-user-info">
             <div class="user-input-box">
@@ -125,13 +125,18 @@
             </div>
         </div>
         <div class="form-submit-btn">
-            <input type="button" value="Order Sekarang" id="orderBtn">
+            <input type="submit" value="Order Sekarang" id="orderBtn">
         </div>
-{{--    </form>--}}
+    </form>
 </div>
 <script>
 
-    $('#orderBtn').click(function (){
+    $('#orderBtn').click(function (event){
+        event.preventDefault()
+        submit()
+    });
+
+    function submit(){
         $.ajax({
             url: '/api/reservation',
             method: 'POST',
@@ -146,8 +151,7 @@
                 window.location.href = "/dinein/order/products";
             }
         })
-    });
-
+    }
 
 </script>
 </body>

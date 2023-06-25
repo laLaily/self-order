@@ -51,7 +51,7 @@ class TransactionApi extends Controller
 
         $paymentCode = Str::uuid();
 
-//        $transaction = Transactions::findOrFail(session('session_token'));
+        $transaction = Transactions::findOrFail(session('session_token'));
 
         $transaction->update(['paymentCode' => $paymentCode]);
 

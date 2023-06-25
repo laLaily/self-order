@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class HasJwtTokenMiddleware
@@ -12,7 +13,7 @@ class HasJwtTokenMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse|JsonResponse
      */
     public function handle(Request $request, Closure $next, $key = "SI-CAFE")
     {
@@ -20,6 +21,9 @@ class HasJwtTokenMiddleware
             $request->headers->set('Authorization', 'Bearer ' . $_COOKIE[$key]);
             return $next($request);
         }
-        return redirect('/dinein/registration');
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Invalid'
+        ], 403);
     }
 }
