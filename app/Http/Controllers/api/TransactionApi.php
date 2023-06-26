@@ -16,24 +16,25 @@ use Tymon\JWTAuth\Token;
 
 class TransactionApi extends Controller
 {
-//    public function index()
-//    {
-//        $trx = Transactions::selectRaw("*,CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView")
-//            ->join('customers', 'customers.id', '=', 'transactions.customerId')->get();
-//
-//        return response()->json([
-//            'transactions' => $trx
-//        ], 201);
-//    }
+    //    public function index()
+    //    {
+    //        $trx = Transactions::selectRaw("*,CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView")
+    //            ->join('customers', 'customers.id', '=', 'transactions.customerId')->get();
+    //
+    //        return response()->json([
+    //            'transactions' => $trx
+    //        ], 201);
+    //    }
     public function cart(Request $request): View|string
     {
         return Blade::render('oke');
     }
 
-    public function show($id){
-
+    public function show($id)
+    {
     }
-    public function getTransactionWithCustomerName($id){
+    public function getTransactionWithCustomerName($id)
+    {
         return Transactions::join('customers', 'customers.id', '=', 'transactions.customerId')
             ->selectRaw("CONCAT('Rp.',FORMAT(transactions.totalPrice,0,'id_ID'),',-') as totalPriceView,
             CONCAT('Rp.',FORMAT(transactions.subtotal,0,'id_ID'),',-') as subtotalView,
@@ -43,7 +44,8 @@ class TransactionApi extends Controller
             ->get();
     }
 
-    public function getProductTransactionWithProduct($id){
+    public function getProductTransactionWithProduct($id)
+    {
         return Transactions::join('detailtransactions', 'detailtransactions.transactionId', '=', 'transactions.id')
             ->join('products', 'products.id', '=', 'detailtransactions.productId')
             ->selectRaw("CONCAT('Rp.',FORMAT(detailtransactions.quantityPrice,0,'id_ID'),',-') as priceView, detailtransactions.productId, products.productName, detailtransactions.quantity, detailtransactions.quantityPrice")
@@ -61,20 +63,20 @@ class TransactionApi extends Controller
 
         $paymentCode = Str::uuid();
 
-        $transaction = Transactions::findOrFail($id);
+        $transaction = Transactions::findOrFail(session('session_token'));
 
         $transaction->update(['paymentCode' => $paymentCode]);
 
-//        if (sizeof($data) != 0) {
-//            if ($request->session()->has('res_token')) {
-//                $request->session()->forget('res_token');
-//            }
-//            $request->session()->forget('session_token');
-//            return redirect('/dinein/order/success')
-//                ->with(['paymentCode' => $paymentCode]);
-//        } else {
-//            return redirect('/dinein/order/products');
-//        }
+        //        if (sizeof($data) != 0) {
+        //            if ($request->session()->has('res_token')) {
+        //                $request->session()->forget('res_token');
+        //            }
+        //            $request->session()->forget('session_token');
+        //            return redirect('/dinein/order/success')
+        //                ->with(['paymentCode' => $paymentCode]);
+        //        } else {
+        //            return redirect('/dinein/order/products');
+        //        }
     }
 
     public function update($id, Request $request)
@@ -86,6 +88,6 @@ class TransactionApi extends Controller
         $status->cashierId = 12;
         $status->save();
 
-//        return redirect('/cashier/transaction/view');
+        //        return redirect('/cashier/transaction/view');
     }
 }

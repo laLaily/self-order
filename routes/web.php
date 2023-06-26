@@ -32,10 +32,14 @@ Route::prefix('/dinein')->group(function (){
     Route::post('/order/products/process', [\App\Http\Controllers\TransactionsController::class, 'createDetailTransaction'])->name('addTrxProduct');
     Route::post('/order/products/delete', [\App\Http\Controllers\TransactionsController::class, 'deleteProduct']) ->name('deleteProduct');
     Route::get('/order/submit', [\App\Http\Controllers\TransactionsController::class, 'submitCart']) ->name('submitOrder');
-    Route::get('/order/success', function (){
-        return view('order.paymentCode');
-    });
+    Route::get('/order/success/{id}',[\App\Http\Controllers\PaymentController::class, 'show']);
 });
+
+Route::get('/checkout/{transactionId}', [\App\Http\Controllers\CheckoutController::class, 'show'])
+->middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class);
+
+//Route::post('/checkout/{transactionId}', [\App\Http\Controllers\CheckoutController::class, 'store'])
+//    ->middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class);
 
 Route::prefix('/cashier')->group(function (){
     Route::get('/login',[\App\Http\Controllers\CashiersController::class, 'login']);

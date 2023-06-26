@@ -18,6 +18,13 @@ class DetailTransactionApi extends Controller
     {
         $jwt = $request->bearerToken();
 
+        if(!$jwt){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Silahkan refresh ulang'
+            ], 403);
+        }
+
         if(!JWTAuth::parseToken($jwt)->check())
         {
             return response('Unauthorized', 403);
@@ -29,7 +36,8 @@ class DetailTransactionApi extends Controller
 
         if($request->input('productId') == 0){
             return response()->json([
-                'total' => Transactions::find($transactionId)->products()->count()
+                'total' => Transactions::find($transactionId)->products()->count(),
+                'transactionId' => $transactionId
             ]);
         }
 
@@ -37,7 +45,14 @@ class DetailTransactionApi extends Controller
             ->where('productId', $request->input('productId'))->first();
         $dataprod = Products::find($request->input('productId'));
 
-        if ($data == NULL) {
+        if($request->input('quantity') == -1 && !$data){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Barang tidak bisa dikurangi'
+            ], 422);
+        }
+
+        if (!$data && $request->input('quantity') != -1) {
             $det = new DetailTransactions();
             $det->transactionId = $transactionId;
             $det->productId = $request->input('productId');
@@ -45,7 +60,19 @@ class DetailTransactionApi extends Controller
             $det->quantityPrice = ($request->input('quantity') * $dataprod->productPrice);
             $det->save();
         } else {
-            $data->update(['quantity' => ($data->quantity + $request->input('quantity')),
+            if($data->quantity + $request->input('quantity') <= 0 ){
+                DetailTransactions::where('transactionId', $transactionId)
+                    ->where('productId', $request->input('productId'))->delete();
+
+                return response()->json([
+                   'status' => 'success',
+                   'message' => "{$dataprod->productName} berhasil dihapus",
+                    'total' => Transactions::find($transactionId)->products()->count(),
+                ]);
+            }
+
+            DetailTransactions::where('transactionId', $transactionId)
+                ->where('productId', $request->input('productId'))->update(['quantity' => ($data->quantity + $request->input('quantity')),
                     'quantityPrice' => ($data->quantityPrice + ($request->input('quantity') * $dataprod->productPrice))
                 ]);
         }
@@ -57,10 +84,15 @@ class DetailTransactionApi extends Controller
 
         $totalProduct = $dine->products()->count();
 
+        $status = 'ditambahkan';
+        if($request->input('quantity') == -1){
+            $status = 'dikurangi';
+        }
+
         return response()->json([
             'status' => 'success',
-            'message' => "$dataprod->productName berhasil ditambahkan",
-            'total' => $totalProduct
+            'message' => "$dataprod->productName berhasil $status",
+            'total' => $totalProduct,
         ], 201);
     }
 

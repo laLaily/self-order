@@ -1,17 +1,37 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <p>Thank You For Order</p>
-    <p>Your payment code is : {{session('paymentCode') ?? ''}}</p>
-    <p></p>
-    <div class="card-body">
-        {!! QrCode::size(300)->generate("http://127.0.0.1:8000/dinein/order/success?" . session('paymentCode')) !!}
+@extends('layouts.customer')
+
+@section('content')
+    <div class="container-xxl py-5" id="info">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Order</h5>
+                <p>
+                    <img src="/assets/img/check.gif" alt="check-icon" height="100px"  data-wow-delay="0.1s">
+                </p>
+                <h5 class="text-success fw-bold">Order Berhasil</h5>
+                <h6>Kode pemesanan anda <span id="paymentCode"></span></h6>
+                <p class="mb-5 fst-italic" id="message"></p>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+@endsection
+
+@push('script')
+    <script>
+        $(document).ready(function (){
+            const segment = window.location.pathname.split('/')
+            window.location.href = document.URL + '#info'
+            $.ajax({
+                'method': 'GET',
+                'url': '/api/payment/'+segment[4],
+                success: function (data){
+                    $('#message').html(data.message);
+                    $('#paymentCode').html(data.paymentCode)
+                },
+                error: function (data){
+                    window.location.href = '/dinein/registration';
+                }
+            })
+        })
+    </script>
+@endpush
