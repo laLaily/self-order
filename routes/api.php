@@ -26,6 +26,10 @@ Route::middleware(\App\Http\Middleware\NotHaveJwtMiddleware::class)->group(funct
         ->name('reservation.create');
 });
 
+Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
+
+Route::post('addProduct', [\App\Http\Controllers\api\ProductApi::class, 'create']);
+
 Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(function (){
 
     Route::get('products', [\App\Http\Controllers\api\ProductApi::class, 'index']);
