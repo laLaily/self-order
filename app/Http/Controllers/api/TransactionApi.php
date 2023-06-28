@@ -7,6 +7,7 @@ use App\Models\DetailTransactions;
 use App\Models\Products;
 use App\Models\Transactions;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
@@ -16,15 +17,15 @@ use Tymon\JWTAuth\Token;
 
 class TransactionApi extends Controller
 {
-    //    public function index()
-    //    {
-    //        $trx = Transactions::selectRaw("*,CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView")
-    //            ->join('customers', 'customers.id', '=', 'transactions.customerId')->get();
-    //
-    //        return response()->json([
-    //            'transactions' => $trx
-    //        ], 201);
-    //    }
+        public function index(): JsonResponse
+        {
+            $trx = Transactions::selectRaw("*,CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView")
+                ->join('customers', 'customers.id', '=', 'transactions.customerId')->get();
+//            dump($trx);
+            return response()->json([
+                'transactions' => $trx
+            ], 201);
+        }
     public function cart(Request $request): View|string
     {
         return Blade::render('oke');

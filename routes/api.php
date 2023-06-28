@@ -42,11 +42,11 @@ Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(func
 
 Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
 
-Route::post('addProduct', [\App\Http\Controllers\api\ProductApi::class, 'create']);
-Route::get('transactions', [\App\Http\Controllers\api\TransactionApi::class, 'index']);
-Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)
-    ->get('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'create']);
+Route::post('products', [\App\Http\Controllers\api\ProductApi::class, 'create']);
 
-Route::delete('cart',  [\App\Http\Controllers\api\DetailTransactionApi::class, 'destroy']);
+
+Route::get('transactions', [\App\Http\Controllers\api\TransactionApi::class, 'index']);
 
 Route::get('submitCart', [\App\Http\Controllers\TransactionsController::class, 'submitCart']);
+
+Route::delete('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'destroy']);

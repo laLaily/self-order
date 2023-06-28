@@ -63,7 +63,7 @@ Route::prefix('/cashier')->group(function (){
         });
 //    });
 });
-
+Route::get('test', [\App\Http\Controllers\api\TransactionApi::class, 'index']);
 Route::prefix('/admin')->group(function (){
 
 });

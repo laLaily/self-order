@@ -73,7 +73,7 @@
 <script>
     $('#addBtn').click(function (){
         $.ajax({
-            url: '/api/addProduct',
+            url: '/api/products',
             method: 'POST',
             header: {
                 'X-CSRF-TOKEN': "{{csrf_token()}}"

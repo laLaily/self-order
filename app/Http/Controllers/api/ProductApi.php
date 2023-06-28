@@ -26,6 +26,14 @@ class ProductApi extends Controller
 
         $decode = JWTAuth::decode(new Token($jwt));
 
+        if ($decode->getClaims()['cashierId']->getValue()){
+            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
+                ->orderBy('id')->get();
+            return response()->json([
+                'products' => $products
+            ], 201);
+        }
+
         $transactionId = $decode->getClaims()['transactionId']->getValue();
 
         $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
@@ -43,9 +51,11 @@ class ProductApi extends Controller
         }
 
         return response()->json([
-           'products' => $products
+            'products' => $products
         ], 201);
     }
+
+
 
     public function create(Request $request)
     {
@@ -79,10 +89,14 @@ class ProductApi extends Controller
         //return
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
-        $product = Products::find($id);
+        $product = Products::where('id', $id);
         $product->delete();
-//        return
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'oke',
+        ], 201);
     }
 }
