@@ -44,6 +44,15 @@ Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(func
 });
 
 
+<<<<<<<<< Temporary merge branch 1
+Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
+
+Route::post('addProduct', [\App\Http\Controllers\api\ProductApi::class, 'create']);
+
+Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)
+->get('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'create']);
+=========
+>>>>>>>>> Temporary merge branch 2
 
 Route::delete('cart',  [\App\Http\Controllers\api\DetailTransactionApi::class, 'destroy']);
 

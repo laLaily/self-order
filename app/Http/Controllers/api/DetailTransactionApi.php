@@ -96,18 +96,18 @@ class DetailTransactionApi extends Controller
         ], 201);
     }
 
-    public function show($id){
-        $trx = Transactions::join('customers', 'customers.id', '=', 'transactions.customerId')
-            ->where('transactions.id', $id)->get();
-
-        $details = Transactions::join('detailtransactions', 'transactions.id', '=', 'detailtransactions.transactionId')
-            ->join('products', 'products.id', '=', 'detailtransactions.productId')
-            ->where('transactions.id', $id)
-            ->get();
-
-        return response()->json([
-            'transaction' => $trx,
-            'detailTransactions' => $details
-        ], 201);
-    }
+//    public function show($id){
+//        $trx = Transactions::join('customers', 'customers.id', '=', 'transactions.customerId')
+//            ->where('transactions.id', $id)->get();
+//
+//        $details = Transactions::join('detailtransactions', 'transactions.id', '=', 'detailtransactions.transactionId')
+//            ->join('products', 'products.id', '=', 'detailtransactions.productId')
+//            ->where('transactions.id', $id)
+//            ->get();
+//
+//        return response()->json([
+//            'transaction' => $trx,
+//            'detailTransactions' => $details
+//        ], 201);
+//    }
 }
