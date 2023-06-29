@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DetailTransactions;
 use App\Models\Products;
 use App\Models\Transactions;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
@@ -15,6 +16,15 @@ use Tymon\JWTAuth\Token;
 
 class TransactionApi extends Controller
 {
+    public function index()
+    {
+        $trx = Transactions::selectRaw("*,CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView")
+            ->join('customers', 'customers.id', '=', 'transactions.customerId')->get();
+
+        return response()->json([
+            'products' => $trx
+        ], 201);
+    }
     public function cart(Request $request): View|string
     {
         return Blade::render('oke');
@@ -51,7 +61,7 @@ class TransactionApi extends Controller
 
         $paymentCode = Str::uuid();
 
-        $transaction = Transactions::findOrFail(session('session_token'));
+        $transaction = Transactions::findOrFail($id);
 
         $transaction->update(['paymentCode' => $paymentCode]);
 
@@ -65,5 +75,17 @@ class TransactionApi extends Controller
 //        } else {
 //            return redirect('/dinein/order/products');
 //        }
+    }
+
+    public function update($id, Request $request)
+    {
+        $status = Transactions::find($id);
+
+        $status->status = $request->input('success');
+        $status->updatedAt = Carbon::now()->setTimezone('Asia/Phnom_Penh');
+        $status->cashierId = 12;
+        $status->save();
+
+//        return redirect('/cashier/transaction/view');
     }
 }

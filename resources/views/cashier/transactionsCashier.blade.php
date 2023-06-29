@@ -12,8 +12,22 @@
 
 </head>
 <body>
+<nav class="navbar sticky-top" style="background-color: #efefef">
+    <div class="container">
+        <a class="navbar-brand" href="/cashier/dashboard">
+            <img src="{{asset('/logo.jpg')}}" alt="Logo" width="40" class="d-inline-block align-text-center p-0">
+            Flower Cafe
+        </a>
+        <div class="navbar-nav pe-3">
+            <a type="button" class="btn position-relative border border-dark btn-light" href="/cashier/product/view">
+                View Product
+            </a>
+        </div>
+    </div>
+</nav>
+<br>
 <div class="transaction">
-    <table class="table">
+    <table class="table" id="transactions">
         <thead>
         <tr>
             <th scope="col">Id</th>
@@ -57,5 +71,8 @@
         </tbody>
     </table>
 </div>
+<script>
+
+</script>
 </body>
 </html>

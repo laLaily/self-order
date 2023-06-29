@@ -26,4 +26,6 @@ class HasJwtTokenMiddleware
             'message' => 'Invalid'
         ], 403);
     }
+
+
 }

@@ -18,12 +18,15 @@ class CashiersController extends Controller
     public function loginCheck(Request $request){
 
         $cashier = Cashiers::where('username', $request->input('username'))->first();
-        if ($request->input('password') == $cashier->password){
-            $request->session()->put('token', $cashier->id);
-            return redirect('cashier/dashboard');
-        } else {
-            return redirect('/cashier/login');
-        }
+
+            if ($request->input('pass') == $cashier->password){
+                $request->session()->put('token', $cashier->id);
+                return redirect('/cashier/dashboard');
+            } else {
+                return redirect('/cashier/login');
+            }
+
+
     }
 
     public function addCashier(Request $request){
@@ -68,13 +71,14 @@ class CashiersController extends Controller
 
 
     public function addProduct(Request $request){
-        $product = new Products();
-        $product->productName = $request->input('productName');
-        $product->productCategory = $request->input('productCategory');
-        $product->productPrice = $request->input('productPrice');
-        $product->productStock = $request->input('productStock');
-        $product->save();
-        return redirect('/cashier/product/view');
+        return view('cashier.addProductCashier');
+//        $product = new Products();
+//        $product->productName = $request->input('productName');
+//        $product->productCategory = $request->input('productCategory');
+//        $product->productPrice = $request->input('productPrice');
+//        $product->productStock = $request->input('productStock');
+//        $product->save();
+//        return redirect('/cashier/product/view');
     }
 
     public function deleteProduct($id){

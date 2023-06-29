@@ -45,11 +45,12 @@ Route::prefix('/cashier')->group(function (){
     Route::get('/login',[\App\Http\Controllers\CashiersController::class, 'login']);
     Route::post('/login/process', [\App\Http\Controllers\CashiersController::class, 'loginCheck'])->name('loginCashier');
 //    Route::post('/create', [\App\Http\Controllers\CashiersController::class, 'addCashier'])->name('addCashier');
-    Route::middleware(\App\Http\Middleware\CashierMiddleware::class)->group(function (){
+//    Route::middleware(\App\Http\Middleware\CashierMiddleware::class)->group(function (){
         Route::get('/dashboard', [\App\Http\Controllers\CashiersController::class, 'dashboard']);
 
         Route::prefix('/product')->group(function() {
             Route::get('/view', [\App\Http\Controllers\CashiersController::class, 'getProducts'])->name('cashier.viewProducts');
+            Route::get('/add', [\App\Http\Controllers\CashiersController::class, 'addProduct']);
             Route::post('/create', [\App\Http\Controllers\CashiersController::class, 'addProduct'])->name('cashier.addProduct');
             Route::post('/delete/{id}',[\App\Http\Controllers\CashiersController::class, 'deleteProduct'])->name('cashier.deleteProduct');
             Route::post('/update/{id}', [\App\Http\Controllers\CashiersController::class, 'updateProducts'])->name('cashier.updateProduct');
@@ -60,7 +61,7 @@ Route::prefix('/cashier')->group(function (){
             Route::get('/view/{id}', [\App\Http\Controllers\CashiersController::class, 'getOneTransactionWithProduct'])->name('cashier.viewDetailTransaction');
             Route::post('/updateStatus/{id}', [\App\Http\Controllers\CashiersController::class, 'updateStatusTransaction'])->name('cashier.updateStatus');
         });
-    });
+//    });
 });
 
 Route::prefix('/admin')->group(function (){

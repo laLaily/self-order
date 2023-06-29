@@ -44,6 +44,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'customers',
         ],
+        'api-cashier' => [
+            'driver' => 'jwt',
+            'provider' => 'cashiers'
+        ]
     ],
 
     /*
@@ -71,7 +75,12 @@ return [
         'customers' => [
             'driver' => 'eloquent',
             'model' => \App\Models\Customers::class
+        ],
+        'cashiers' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\Cashiers::class
         ]
+
 
         // 'users' => [
         //     'driver' => 'database',
