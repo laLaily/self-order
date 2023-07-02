@@ -26,10 +26,6 @@ Route::middleware(\App\Http\Middleware\NotHaveJwtMiddleware::class)->group(funct
         ->name('reservation.create');
 });
 
-Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
-
-Route::post('addProduct', [\App\Http\Controllers\api\ProductApi::class, 'create']);
-
 Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(function (){
 
     Route::get('products', [\App\Http\Controllers\api\ProductApi::class, 'index']);
@@ -43,18 +39,13 @@ Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(func
     Route::get('payment/{transactionId}', [\App\Http\Controllers\api\PaymentApi::class, 'show']);
 });
 
-
-<<<<<<<<< Temporary merge branch 1
 Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
 
-Route::post('addProduct', [\App\Http\Controllers\api\ProductApi::class, 'create']);
+Route::post('products', [\App\Http\Controllers\api\ProductApi::class, 'create']);
 
-Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)
-->get('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'create']);
-=========
->>>>>>>>> Temporary merge branch 2
-
-Route::delete('cart',  [\App\Http\Controllers\api\DetailTransactionApi::class, 'destroy']);
+Route::get('transactions', [\App\Http\Controllers\api\TransactionApi::class, 'index']);
 
 Route::get('submitCart', [\App\Http\Controllers\TransactionsController::class, 'submitCart']);
+
+Route::delete('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'destroy']);
 

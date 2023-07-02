@@ -26,7 +26,8 @@ class ProductApi extends Controller
 
         $decode = JWTAuth::decode(new Token($jwt));
 
-        if ($decode->getClaims()['cashierId']->getValue()){
+
+        if (isset($decode->getClaims()['cashierId'])){
             $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
                 ->orderBy('id')->get();
             return response()->json([
@@ -36,8 +37,13 @@ class ProductApi extends Controller
 
         $transactionId = $decode->getClaims()['transactionId']->getValue();
 
-        $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
-            ->orderBy('id')->get();
+        if($request->has('filter') && $request->input('filter') != 'all'){
+            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
+                ->orderBy('id')->where('productCategory', $request->input('filter'))->get();
+        }else{
+            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
+                ->orderBy('id')->get();
+        }
 
         $detailTransaction = DetailTransactions::where('transactionId', $transactionId)
             ->orderBy('productId')->get();

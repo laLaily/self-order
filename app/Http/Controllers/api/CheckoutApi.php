@@ -36,7 +36,14 @@ class CheckoutApi extends Controller
 
         $paymentCode = Str::uuid();
 
-        $transaction = Transactions::find($transactionId);
+        $transaction = Transactions::withCount('detail')->find($transactionId);
+
+        if($transaction->detail_count <= 0 ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Checkout gagal, pilih menu terlebih dahulu'
+            ], 422);
+        }
 
         $transaction->update([
             'paymentCode' => $paymentCode,
