@@ -80,15 +80,22 @@ class TransactionApi extends Controller
         //        }
     }
 
-    public function update($id, Request $request)
+    public function update($id)
     {
-        $status = Transactions::find($id);
+        $jwt = $_COOKIE['SI-CAFE'];
+        $payload = JWTAuth::decode(new Token($jwt));
+        $cashier = $payload->getClaims()['cashierId']->getValue();
 
-        $status->status = $request->input('success');
+        $status = Transactions::where('id', $id);
+
+        $status->status = 'success';
         $status->updatedAt = Carbon::now()->setTimezone('Asia/Phnom_Penh');
-        $status->cashierId = 12;
+        $status->cashierId = $cashier;
         $status->save();
 
-        //        return redirect('/cashier/transaction/view');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'oke',
+        ], 201);
     }
 }
