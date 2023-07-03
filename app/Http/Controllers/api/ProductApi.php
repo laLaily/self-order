@@ -15,44 +15,49 @@ class ProductApi extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $jwt = $request->bearerToken();
+        $jwt = $_COOKIE['SI-CAFE'];
+        $payload = JWTAuth::decode(new Token($jwt));
+        $role = $payload->getClaims()['role']->getValue();
+//        dump($role);
+//        $jwt = $request->bearerToken();
+//
+//        if(!$jwt){
+//            return response()->json([
+//                'status' => 'error',
+//                'message' => 'Silahkan refresh ulang'
+//            ], 422);
+//        }
+//
+//        $decode = JWTAuth::decode(new Token($jwt));
 
-        if(!$jwt){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Silahkan refresh ulang'
-            ], 422);
-        }
-
-        $decode = JWTAuth::decode(new Token($jwt));
-
-        if ($decode->getClaims()['cashierId']->getValue()){
+        if($role == 'cashier'){
             $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
                 ->orderBy('id')->get();
             return response()->json([
                 'products' => $products
             ], 201);
-        }
+        } else {
 
-        $transactionId = $decode->getClaims()['transactionId']->getValue();
+//            $transactionId = $decode->getClaims()['transactionId']->getValue();
+            $transactionId = $payload->getClaims()['transactionId']->getValue();
+            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
+                ->orderBy('id')->get();
 
-        $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
-            ->orderBy('id')->get();
+            $detailTransaction = DetailTransactions::where('transactionId', $transactionId)
+                ->orderBy('productId')->get();
 
-        $detailTransaction = DetailTransactions::where('transactionId', $transactionId)
-            ->orderBy('productId')->get();
-
-        $ctr = 0;
-        foreach ($products as $product){
-            if($ctr < sizeof($detailTransaction) && $product->id == $detailTransaction[$ctr]->productId){
-                $product->total = $detailTransaction[$ctr]->quantity;
-                $ctr++;
+            $ctr = 0;
+            foreach ($products as $product) {
+                if ($ctr < sizeof($detailTransaction) && $product->id == $detailTransaction[$ctr]->productId) {
+                    $product->total = $detailTransaction[$ctr]->quantity;
+                    $ctr++;
+                }
             }
-        }
 
-        return response()->json([
-            'products' => $products
-        ], 201);
+            return response()->json([
+                'products' => $products
+            ], 201);
+        }
     }
 
 

@@ -50,3 +50,5 @@ Route::get('transactions', [\App\Http\Controllers\api\TransactionApi::class, 'in
 Route::get('submitCart', [\App\Http\Controllers\TransactionsController::class, 'submitCart']);
 
 Route::delete('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'destroy']);
+
+Route::put('transaction/{transactionId}', [\App\Http\Controllers\api\TransactionApi::class, 'update']);
