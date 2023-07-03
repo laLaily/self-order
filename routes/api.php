@@ -21,12 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(\App\Http\Middleware\NotHaveJwtMiddleware::class)->group(function (){
+Route::middleware(\App\Http\Middleware\NotHaveJwtMiddleware::class)->group(function () {
     Route::post('reservation', [\App\Http\Controllers\api\ReservationApi::class, 'create'])
         ->name('reservation.create');
 });
 
-Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(function (){
+Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(function () {
 
     Route::get('products', [\App\Http\Controllers\api\ProductApi::class, 'index']);
 
@@ -49,3 +49,5 @@ Route::get('submitCart', [\App\Http\Controllers\TransactionsController::class, '
 
 Route::delete('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'destroy']);
 
+
+Route::put('transaction/{transactionId}', [\App\Http\Controllers\api\TransactionApi::class, 'update']);
