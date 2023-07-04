@@ -62,14 +62,14 @@
                 for (const trx of transactions) {
                     table += `
                     <tr style="cursor: default;">
-                    <td>${ trx.transactionId }</td>
+                    <td>${ trx.id }</td>
                     <td>${ trx.transactionDate }</td>
                     <td>${ trx.customerName }</td>
                     <td>${ trx.priceView }</td>
                     <td>${ trx.status }</td>
                     <td>${ trx.updatedAt }</td>
                     <td>
-                    <a href="/cashier/transaction/view/${ trx.transactionId }">
+                    <a href="/cashier/transaction/view/${ trx.id }">
 <!--                        <button type="submit" class="btn btn-view" id="btnView" value="${ trx.transactionId }">-->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
