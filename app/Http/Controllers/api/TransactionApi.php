@@ -19,9 +19,9 @@ class TransactionApi extends Controller
 {
         public function index(): JsonResponse
         {
-            $trx = Transactions::selectRaw("*,CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView")
+            $trx = Transactions::selectRaw("*,CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView, transactions.id as transactionId")
                 ->join('customers', 'customers.id', '=', 'transactions.customerId')->get();
-//            dump($trx);
+
             return response()->json([
                 'transactions' => $trx
             ], 201);
@@ -31,8 +31,24 @@ class TransactionApi extends Controller
         return Blade::render('oke');
     }
 
-    public function show($id)
+    public function show($id): JsonResponse
     {
+        $trx = Transactions::selectRaw("CONCAT('Rp.',FORMAT(transactions.totalPrice,0,'id_ID'),',-') as priceView,
+        CONCAT('Rp.',FORMAT(transactions.subtotal,0,'id_ID'),',-') as subtotalView,
+        CONCAT('Rp.',FORMAT(transactions.tax,0,'id_ID'),',-') as taxView,
+        transactions.*, customers.customerName")
+            ->join('customers', 'customers.id', '=', 'transactions.customerId')->where('transactions.id', $id)->first();
+
+        $details = Transactions::join('detailtransactions', 'transactions.id', '=', 'detailtransactions.transactionId')
+            ->join('products', 'products.id', '=', 'detailtransactions.productId')
+            ->selectRaw("CONCAT('Rp.',FORMAT(detailtransactions.quantityPrice,0,'id_ID'),',-') as priceView, detailtransactions.productId, products.productName, detailtransactions.quantity, detailtransactions.quantityPrice")
+            ->where('transactions.id', $id)
+            ->get();
+
+        return response()->json([
+            'transaction' => $trx,
+            'detail' => $details
+        ], 201);
     }
     public function getTransactionWithCustomerName($id)
     {
@@ -80,7 +96,7 @@ class TransactionApi extends Controller
         //        }
     }
 
-    public function update($id)
+    public function update($id): JsonResponse
     {
         $jwt = $_COOKIE['SI-CAFE'];
         $payload = JWTAuth::decode(new Token($jwt));

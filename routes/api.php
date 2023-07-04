@@ -44,11 +44,12 @@ Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
 
 Route::post('products', [\App\Http\Controllers\api\ProductApi::class, 'create']);
 
-
 Route::get('transactions', [\App\Http\Controllers\api\TransactionApi::class, 'index']);
 
 Route::get('submitCart', [\App\Http\Controllers\TransactionsController::class, 'submitCart']);
 
 Route::delete('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'destroy']);
 
-Route::put('transaction/{transactionId}', [\App\Http\Controllers\api\TransactionApi::class, 'update']);
+Route::put('transactions/{transactionId}', [\App\Http\Controllers\api\TransactionApi::class, 'update']);
+
+Route::get('transactions/{transactionId}', [\App\Http\Controllers\api\TransactionApi::class, 'show']);
