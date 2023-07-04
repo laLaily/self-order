@@ -19,7 +19,7 @@ class TransactionApi extends Controller
 {
         public function index(): JsonResponse
         {
-            $trx = Transactions::selectRaw("*,CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView, transactions.id as transactionId")
+            $trx = Transactions::selectRaw("*, transactions.id as 'id',CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView")
                 ->join('customers', 'customers.id', '=', 'transactions.customerId')->get();
 
             return response()->json([
@@ -102,9 +102,9 @@ class TransactionApi extends Controller
         $payload = JWTAuth::decode(new Token($jwt));
         $cashier = $payload->getClaims()['cashierId']->getValue();
 
-        $status = Transactions::where('id', $id);
+        $status = Transactions::where('id', $id)->first();
 
-        $status->status = 'success';
+        $status->status = 'Success';
         $status->updatedAt = Carbon::now()->setTimezone('Asia/Phnom_Penh');
         $status->cashierId = $cashier;
         $status->save();

@@ -15,49 +15,50 @@ class ProductApi extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $jwt = $_COOKIE['SI-CAFE'];
-        $payload = JWTAuth::decode(new Token($jwt));
-        $role = $payload->getClaims()['role']->getValue();
-//        dump($role);
-//        $jwt = $request->bearerToken();
-//
-//        if(!$jwt){
-//            return response()->json([
-//                'status' => 'error',
-//                'message' => 'Silahkan refresh ulang'
-//            ], 422);
-//        }
-//
-//        $decode = JWTAuth::decode(new Token($jwt));
+        $jwt = $request->bearerToken();
 
-        if($role == 'cashier'){
-            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
-                ->orderBy('id')->get();
+        if(!$jwt){
             return response()->json([
-                'products' => $products
-            ], 201);
-        } else {
+                'status' => 'error',
+                'message' => 'Silahkan refresh ulang'
+            ], 422);
+        }
 
-//            $transactionId = $decode->getClaims()['transactionId']->getValue();
-            $transactionId = $payload->getClaims()['transactionId']->getValue();
+        $decode = JWTAuth::decode(new Token($jwt));
+
+
+        if (isset($decode->getClaims()['cashierId'])){
             $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
                 ->orderBy('id')->get();
-
-            $detailTransaction = DetailTransactions::where('transactionId', $transactionId)
-                ->orderBy('productId')->get();
-
-            $ctr = 0;
-            foreach ($products as $product) {
-                if ($ctr < sizeof($detailTransaction) && $product->id == $detailTransaction[$ctr]->productId) {
-                    $product->total = $detailTransaction[$ctr]->quantity;
-                    $ctr++;
-                }
-            }
-
             return response()->json([
                 'products' => $products
             ], 201);
         }
+
+        $transactionId = $decode->getClaims()['transactionId']->getValue();
+
+        if($request->has('filter') && $request->input('filter') != 'all'){
+            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
+                ->orderBy('id')->where('productCategory', $request->input('filter'))->get();
+        }else{
+            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
+                ->orderBy('id')->get();
+        }
+
+        $detailTransaction = DetailTransactions::where('transactionId', $transactionId)
+            ->orderBy('productId')->get();
+
+        $ctr = 0;
+        foreach ($products as $product){
+            if($ctr < sizeof($detailTransaction) && $product->id == $detailTransaction[$ctr]->productId){
+                $product->total = $detailTransaction[$ctr]->quantity;
+                $ctr++;
+            }
+        }
+
+        return response()->json([
+            'products' => $products
+        ], 201);
     }
 
 

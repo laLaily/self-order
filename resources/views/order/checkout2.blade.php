@@ -106,6 +106,9 @@
                 },
                 success: function (data){
                     window.location.href = '/dinein/order/success/' + segment[2]
+                },
+                error: function (data){
+
                 }
             })
         })

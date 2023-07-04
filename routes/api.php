@@ -39,7 +39,6 @@ Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(func
     Route::get('payment/{transactionId}', [\App\Http\Controllers\api\PaymentApi::class, 'show']);
 });
 
-
 Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
 
 Route::post('products', [\App\Http\Controllers\api\ProductApi::class, 'create']);
