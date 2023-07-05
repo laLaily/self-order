@@ -30,7 +30,13 @@ Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(func
 
     Route::get('products', [\App\Http\Controllers\api\ProductApi::class, 'index']);
 
-    Route::get('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'create']);
+    Route::get('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'index']);
+
+    Route::post('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'create']);
+
+    Route::put('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'patch']);
+
+    Route::delete('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'destroy']);
 
     Route::get('checkout/{transactionId}', [\App\Http\Controllers\api\CheckoutApi::class, 'show']);
 

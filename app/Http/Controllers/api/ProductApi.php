@@ -38,8 +38,8 @@ class ProductApi extends Controller
         $transactionId = $decode->getClaims()['transactionId']->getValue();
 
         if($request->has('filter') && $request->input('filter') != 'all'){
-            $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
-                ->orderBy('id')->where('productCategory', $request->input('filter'))->get();
+            $products = Products::where('productCategory', $request->input('filter'))
+                ->get();
         }else{
             $products = Products::selectRaw("*, CONCAT('Rp.',FORMAT(productPrice,0,'id_ID'),',-') as priceView")
                 ->orderBy('id')->get();
@@ -50,10 +50,14 @@ class ProductApi extends Controller
 
         $ctr = 0;
         foreach ($products as $product){
-            if($ctr < sizeof($detailTransaction) && $product->id == $detailTransaction[$ctr]->productId){
-                $product->total = $detailTransaction[$ctr]->quantity;
-                $ctr++;
+            $item = $detailTransaction->where('productId', $product->id)->first() ?? null;
+            if($item){
+                $product->total = $item->quantity;
             }
+//            if($ctr < sizeof($detailTransaction) && $product->id == $detailTransaction[$ctr]->productId){
+//                $product->total = $detailTransaction[$ctr]->quantity;
+//                $ctr++;
+//            }
         }
 
         return response()->json([

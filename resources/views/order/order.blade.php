@@ -9,8 +9,8 @@
                     <h3 class="">Filter</h3>
                     <select class="form-select form-select-sm w-25" aria-label="Default select example" id="filter" name="filter">
                         <option value="all" selected>All</option>
-                        <option value="beverage">Beverage</option>
-                        <option value="food">Food</option>
+                        <option value="Beverage">Beverage</option>
+                        <option value="Food">Food</option>
                     </select>
                 </div>
             </div>
@@ -44,7 +44,7 @@
     <script>
         $(document).ready(function () {
             initProduct('/api/products')
-            sendEvent(this)
+            sendEvent(this, 1)
             $('#products').on('click', '.edit-product', function() {
                 sendEvent(this)
             });
@@ -82,7 +82,7 @@
                         card += `
                     <div class="col-lg-6">
                             <div class="d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid rounded" src="/assets/img/menu-1.jpg" alt="" style="width: 80px;">
+                                <img class="flex-shrink-0 img-fluid rounded" src="${product.productCategory === 'Beverage' ? '/beverage' : '/makanan'}.jpg" alt="" style="width: 80px;">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
                                         <span>${product.productName}</span>
@@ -114,22 +114,32 @@
             initProduct('/api/products?filter=' +filter)
         })
 
-        function sendEvent(el){
+        function sendEvent(el, begin = -1){
+            if(begin === 1) return sendRequest(el, 'GET')
+
+            const qty = $('#inp-' + el.id).val()
+
+            console.info(el.value)
+            console.info(qty)
+
+            if(el.value === "1" && qty === "0") return sendRequest(el, 'POST')
+
+            if(el.value === "-1" && qty === "1") return sendRequest(el, 'DELETE')
+
+            return sendRequest(el, 'PUT')
+        }
+
+        function sendRequest(el, type){
             $.ajax({
                 url: '/api/cart',
-                method: 'GET',
+                method: type,
                 data: {
                     productId: el.id,
                     quantity: el.value,
                 },
                 success: function (data){
                     if(data.status === 'success'){
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: data.message,
-                            showConfirmButton: false
-                        })
+                        showAlert('success', data.message)
                     }
 
                     if(data.transactionId){
@@ -143,15 +153,20 @@
                     $('#total-item').html(data.total)
                 },
                 error: function (data){
-                    console.info(data)
                     const response = JSON.parse(data.responseText)
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: response.message,
-                        showConfirmButton: false
-                    })
+                    showAlert('error', response.message)
                 }
+            })
+        }
+
+        function showAlert(type, message){
+            Swal.fire({
+                position: 'bottom-right',
+                icon: type,
+                title: message,
+                showConfirmButton: false,
+                toast: true,
+                timer: 2000,
             })
         }
     </script>
