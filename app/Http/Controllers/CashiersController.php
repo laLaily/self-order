@@ -87,16 +87,17 @@ class CashiersController extends Controller
         return redirect('/cashier/product/view');
     }
 
-    public function updateProducts(Request $request, $id){
-        $product = Products::find($id);
-
-        $product->productPrice = $request->input('productPrice');
-        $product->productStock = $request->input('productStock');
-
-        $product->updaterId=$request->session()->get('token');
-        $product->save();
-
-        return redirect('/cashier/product/view');
+    public function updateProducts($id){
+//        $product = Products::find($id);
+//
+//        $product->productPrice = $request->input('productPrice');
+//        $product->productStock = $request->input('productStock');
+//
+//        $product->updaterId=$request->session()->get('token');
+//        $product->save();
+//
+//        return redirect('/cashier/product/view');
+        return view ('cashier.updateProductCashier', ['idProduct' => $id]);
     }
 
     public function getOneTransactionWithProduct($id){
@@ -126,5 +127,10 @@ class CashiersController extends Controller
         $status->save();
 
         return redirect('/cashier/transaction/view');
+    }
+
+    public function logoutcashier()
+    {
+        return view('cashier.loginCashier');
     }
 }

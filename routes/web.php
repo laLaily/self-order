@@ -42,18 +42,19 @@ Route::get('/checkout/{transactionId}', [\App\Http\Controllers\CheckoutControlle
 //    ->middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class);
 
 Route::prefix('/cashier')->group(function (){
-    Route::get('/login',[\App\Http\Controllers\CashiersController::class, 'login']);
+    Route::get('/login',[\App\Http\Controllers\CashiersController::class, 'login'])->name('cashier.login');
     Route::post('/login/process', [\App\Http\Controllers\CashiersController::class, 'loginCheck'])->name('loginCashier');
+    Route::get('/logout', [\App\Http\Controllers\CashiersController::class, 'logoutcashier'])->name('cashier.logout');
 //    Route::post('/create', [\App\Http\Controllers\CashiersController::class, 'addCashier'])->name('addCashier');
 //    Route::middleware(\App\Http\Middleware\CashierMiddleware::class)->group(function (){
-        Route::get('/dashboard', [\App\Http\Controllers\CashiersController::class, 'dashboard']);
+        Route::get('/dashboard', [\App\Http\Controllers\CashiersController::class, 'dashboard'])->name('cashier.dashboard');
 
         Route::prefix('/product')->group(function() {
             Route::get('/view', [\App\Http\Controllers\CashiersController::class, 'getProducts'])->name('cashier.viewProducts');
             Route::get('/add', [\App\Http\Controllers\CashiersController::class, 'addProduct']);
             Route::post('/create', [\App\Http\Controllers\CashiersController::class, 'addProduct'])->name('cashier.addProduct');
             Route::post('/delete/{id}',[\App\Http\Controllers\CashiersController::class, 'deleteProduct'])->name('cashier.deleteProduct');
-            Route::post('/update/{id}', [\App\Http\Controllers\CashiersController::class, 'updateProducts'])->name('cashier.updateProduct');
+            Route::get('/update/{id}', [\App\Http\Controllers\CashiersController::class, 'updateProducts'])->name('cashier.updateProduct');
         });
 
         Route::prefix('/transaction')->group(function (){
@@ -63,7 +64,7 @@ Route::prefix('/cashier')->group(function (){
         });
 //    });
 });
-Route::get('test', [\App\Http\Controllers\api\ProductApi::class, 'index']);
+
 Route::prefix('/admin')->group(function (){
 
 });
