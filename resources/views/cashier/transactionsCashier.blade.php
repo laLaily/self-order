@@ -189,7 +189,7 @@
                     <th scope="col">Customer Name</th>
                     <th scope="col">Total Price</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Updated at</th>
+                    <th scope="col">Payment Code</th>
                     <th scope="col">Detail</th>
                     <th scope="col">Update Status</th>
                 </tr>
@@ -223,7 +223,7 @@
                     <td>${ trx.customerName }</td>
                     <td>${ trx.priceView }</td>
                     <td>${ trx.status }</td>
-                    <td>${ trx.updatedAt }</td>
+                    <td>${ trx.paymentCode }</td>
                     <td>
                     <a href="/cashier/transaction/view/${ trx.id }">
 <!--                        <button type="submit" class="btn btn-view" id="btnView" value="${ trx.transactionId }">-->

@@ -20,7 +20,9 @@ class TransactionApi extends Controller
         public function index(): JsonResponse
         {
             $trx = Transactions::selectRaw("*, transactions.id as 'id',CONCAT('Rp.',FORMAT(totalPrice,0,'id_ID'),',-') as priceView")
-                ->join('customers', 'customers.id', '=', 'transactions.customerId')->get();
+                ->join('customers', 'customers.id', '=', 'transactions.customerId')
+                ->orderBy('transactionDate', 'DESC')
+                ->get();
 
             return response()->json([
                 'transactions' => $trx

@@ -20,7 +20,7 @@
                     </table>
                     <div class="d-flex justify-content-end">
                         <button class="btn btn-success rounded-pill mt-3" id="checkout" type="button">
-                            Place Order
+                            Order
                             <span><i class="bi bi-check-circle"></i></span>
                         </button>
                     </div>

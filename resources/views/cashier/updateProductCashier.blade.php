@@ -28,7 +28,7 @@
         body
         {
             font-family: 'Poppins', sans-serif;
-            background: #ececec;
+            background: white;
         }
 
         /*------------ Login container ------------*/

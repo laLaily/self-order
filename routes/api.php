@@ -28,33 +28,26 @@ Route::middleware(\App\Http\Middleware\NotHaveJwtMiddleware::class)->group(funct
 
 Route::middleware(\App\Http\Middleware\HasJwtTokenMiddleware::class)->group(function () {
 
+    Route::post('products', [\App\Http\Controllers\api\ProductApi::class, 'create']);
     Route::get('products', [\App\Http\Controllers\api\ProductApi::class, 'index']);
-
     Route::get('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'show']);
+    Route::put('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'update']);
+    Route::delete('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'destroy']);
+
+    Route::get('transactions', [\App\Http\Controllers\api\TransactionApi::class, 'index']);
+    Route::get('transactions/{transactionId}', [\App\Http\Controllers\api\TransactionApi::class, 'show']);
+    Route::put('transactions/{transactionId}', [\App\Http\Controllers\api\TransactionApi::class, 'update']);
 
     Route::get('cart', [\App\Http\Controllers\api\DetailTransactionApi::class, 'create']);
+    Route::get('submitCart', [\App\Http\Controllers\TransactionsController::class, 'submitCart']);
 
     Route::get('checkout/{transactionId}', [\App\Http\Controllers\api\CheckoutApi::class, 'show']);
-
     Route::post('checkout/{transactionId}', [\App\Http\Controllers\api\CheckoutApi::class, 'store']);
 
     Route::get('payment/{transactionId}', [\App\Http\Controllers\api\PaymentApi::class, 'show']);
 
-    Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
 
-    Route::post('products', [\App\Http\Controllers\api\ProductApi::class, 'create']);
 
-    Route::get('transactions', [\App\Http\Controllers\api\TransactionApi::class, 'index']);
-
-    Route::get('submitCart', [\App\Http\Controllers\TransactionsController::class, 'submitCart']);
-
-    Route::delete('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'destroy']);
-
-    Route::put('products/{productId}', [\App\Http\Controllers\api\ProductApi::class, 'update']);
-
-    Route::put('transactions/{transactionId}', [\App\Http\Controllers\api\TransactionApi::class, 'update']);
-
-    Route::get('transactions/{transactionId}', [\App\Http\Controllers\api\TransactionApi::class, 'show']);
 });
-
+Route::post('login', [\App\Http\Controllers\api\CashierApi::class, 'login']);
 
