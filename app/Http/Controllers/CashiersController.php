@@ -87,31 +87,34 @@ class CashiersController extends Controller
         return redirect('/cashier/product/view');
     }
 
-    public function updateProducts(Request $request, $id){
-        $product = Products::find($id);
-
-        $product->productPrice = $request->input('productPrice');
-        $product->productStock = $request->input('productStock');
-
-        $product->updaterId=$request->session()->get('token');
-        $product->save();
-
-        return redirect('/cashier/product/view');
+    public function updateProducts($id){
+//        $product = Products::find($id);
+//
+//        $product->productPrice = $request->input('productPrice');
+//        $product->productStock = $request->input('productStock');
+//
+//        $product->updaterId=$request->session()->get('token');
+//        $product->save();
+//
+//        return redirect('/cashier/product/view');
+        return view ('cashier.updateProductCashier', ['idProduct' => $id]);
     }
 
     public function getOneTransactionWithProduct($id){
-        $trx = Transactions::selectRaw("CONCAT('Rp.',FORMAT(transactions.totalPrice,0,'id_ID'),',-') as priceView,
-        CONCAT('Rp.',FORMAT(transactions.subtotal,0,'id_ID'),',-') as subtotalView,
-        CONCAT('Rp.',FORMAT(transactions.tax,0,'id_ID'),',-') as taxView,
-        transactions.*, customers.customerName")
-            ->join('customers', 'customers.id', '=', 'transactions.customerId')->where('transactions.id', $id)->get();
+//        $trx = Transactions::selectRaw("CONCAT('Rp.',FORMAT(transactions.totalPrice,0,'id_ID'),',-') as priceView,
+//        CONCAT('Rp.',FORMAT(transactions.subtotal,0,'id_ID'),',-') as subtotalView,
+//        CONCAT('Rp.',FORMAT(transactions.tax,0,'id_ID'),',-') as taxView,
+//        transactions.*, customers.customerName")
+//            ->join('customers', 'customers.id', '=', 'transactions.customerId')->where('transactions.id', $id)->get();
+//
+//        $details = Transactions::join('detailtransactions', 'transactions.id', '=', 'detailtransactions.transactionId')
+//            ->join('products', 'products.id', '=', 'detailtransactions.productId')
+//            ->selectRaw("CONCAT('Rp.',FORMAT(detailtransactions.quantityPrice,0,'id_ID'),',-') as priceView, detailtransactions.productId, products.productName, detailtransactions.quantity, detailtransactions.quantityPrice")
+//            ->where('transactions.id', $id)
+//            ->get();
+//        return view('cashier.detailTransactionsCashier', ['trx' => $trx, 'detail' => $details]);
+        return view('cashier.detailTransactionsCashier', ['idDetailtransaction' => $id]);
 
-        $details = Transactions::join('detailtransactions', 'transactions.id', '=', 'detailtransactions.transactionId')
-            ->join('products', 'products.id', '=', 'detailtransactions.productId')
-            ->selectRaw("CONCAT('Rp.',FORMAT(detailtransactions.quantityPrice,0,'id_ID'),',-') as priceView, detailtransactions.productId, products.productName, detailtransactions.quantity, detailtransactions.quantityPrice")
-            ->where('transactions.id', $id)
-            ->get();
-        return view('cashier.detailTransactionsCashier', ['trx' => $trx, 'detail' => $details]);
     }
 
     public function updateStatusTransaction(Request $request, $id)
@@ -124,5 +127,11 @@ class CashiersController extends Controller
         $status->save();
 
         return redirect('/cashier/transaction/view');
+    }
+
+    public function logoutcashier()
+    {
+        return redirect('/cashier/login')
+            ->withoutCookie('SI-CAFE');
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransactions;
 use App\Models\Products;
+use App\Models\Transactions;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -67,7 +69,7 @@ class ProductApi extends Controller
 
 
 
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse
     {
         $product = new Products();
         $product->productName = $request->input('productName');
@@ -80,26 +82,29 @@ class ProductApi extends Controller
             'status' => 'success',
             'message' => 'oke',
         ], 201);
-        //return redirect('/cashier/product/view');
     }
 
-    public function update($id, Request $request){
+    public function update($id, Request $request): JsonResponse
+    {
+
         $jwt = $_COOKIE['SI-CAFE'];
         $payload = JWTAuth::decode(new Token($jwt));
-        $cashierId = $payload->getClaims()['id']->getValue();
+        $cashier = $payload->getClaims()['cashierId']->getValue();
 
-        $product = Products::find($id);
-
+        $product = Products::where('id', $id)->first();
         $product->productPrice = $request->input('productPrice');
         $product->productStock = $request->input('productStock');
-
-        $product->updaterId=$cashierId;
+        $product->updatedAt = Carbon::now()->setTimezone('Asia/Phnom_Penh');
+        $product->updaterId = $cashier;
         $product->save();
 
-        //return
+        return response()->json([
+            'status' => 'success',
+            'message' => 'oke',
+        ], 201);
     }
 
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $product = Products::where('id', $id);
         $product->delete();
@@ -107,6 +112,14 @@ class ProductApi extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'oke',
+        ], 201);
+    }
+
+    public function show($id): JsonResponse
+    {
+        $product = Products::find($id);
+        return response()->json([
+            'productData' => $product
         ], 201);
     }
 }

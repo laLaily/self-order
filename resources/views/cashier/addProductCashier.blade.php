@@ -1,74 +1,121 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ mix('css/templateHeader.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/templateFooter.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Cashier Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        body
+        {
+            font-family: 'Poppins', sans-serif;
+            background: #ececec;
+        }
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        /*------------ Login container ------------*/
+
+        .box-area{
+            width: 930px;
+        }
+
+        /*------------ Right box ------------*/
+
+        .right-box{
+            padding: 40px 30px 40px 40px;
+        }
+
+        /*------------ Custom Placeholder ------------*/
+
+        ::placeholder{
+            font-size: 16px;
+        }
+
+        .rounded-4{
+            border-radius: 20px;
+        }
+        .rounded-5{
+            border-radius: 30px;
+        }
+
+
+        /*------------ For small screens------------*/
+
+        @media only screen and (max-width: 768px){
+
+            .box-area{
+                margin: 0 10px;
+
+            }
+            .left-box{
+                height: 100px;
+                overflow: hidden;
+            }
+            .right-box{
+                padding: 20px;
+            }
+
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar sticky-top" style="background-color: #efefef">
-    <div class="container">
-        <a class="navbar-brand" href="/cashier/dashboard">
-            <img src="{{asset('/logo.jpg')}}" alt="Logo" width="40" class="d-inline-block align-text-center p-0">
-            Flower Cafe
-        </a>
-        <div class="navbar-nav pe-3">
-            <a type="button" class="btn position-relative border border-dark btn-light" href="/cashier/product/view">
-                View Product
-            </a>
-        </div>
-    </div>
-</nav>
-<div class="container pt-4" >
-    <div>
-        <div class="row mb-2">
-            <label for="staticEmail" class="col-sm-5 col-form-label">Product Name</label>
-            <div class="col-sm-5">
+
+<!----------------------- Main Container -------------------------->
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+
+    <!----------------------- Login Container -------------------------->
+
+    <div class="row border rounded-5 p-3 shadow box-area" style="background-color: #151F28">
+
+        <!--------------------------- Left Box ----------------------------->
+
+{{--        <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="">--}}
+{{--            <img src="/assets/img/logoBg.png" class="img-fluid" style="width: 250px;">--}}
+{{--        </div>--}}
+
+        <!-------------------- ------ Right Box ---------------------------->
+        <div class="row align-items-center">
+            <div class="header-text mb-4">
+                <h2 style="color:#FEA116">Add product</h2>
+            </div>
+            <div class="input-group mb-3">
+                <label style="color:#FEA116" for="staticEmail" class="col-sm-5 col-form-label">Product Name</label>
                 <input class="form-control" type="text" id="productName" name="productName">
             </div>
-        </div>
-        <div class="row mb-2">
-            <label for="staticEmail" class="col-sm-5 col-form-label">Product Category</label>
-            <div class="col-sm-5">
-                <select class="form-control" name="productCategory" id="productCategory">
-                    <option>Chose One</option>
-                    <option value="Food">Food</option>
-                    <option value="Beverage">Beverage</option>
-                </select>
+            <div class="input-group mb-3">
+                <label style="color:#FEA116" for="staticEmail" class="col-sm-5 col-form-label">Product Category</label>
+                <div class="col-sm-5">
+                    <select class="form-control" name="productCategory" id="productCategory">
+                        <option>Chose One</option>
+                        <option value="Food">Food</option>
+                        <option value="Beverage">Beverage</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="row mb-2">
-            <label for="product-price" class="col-sm-5 col-form-label">Price</label>
-            <div class="col-sm-5">
-                <input class="form-control" type="number" id="productPrice" name="productPrice" min="1000" max="1000000">
+            <div class="input-group mb-3">
+                <label style="color:#FEA116" for="staticEmail" class="col-sm-5 col-form-label" >Product Price</label>
+                <input class="form-control" type="number" id="productPrice" name="productPrice">
             </div>
-        </div>
-        <div class="row mb-2">
-            <label for="staticEmail" class="col-sm-5 col-form-label">Stock</label>
-            <div class="col-sm-5">
-                <input type="number" value="1" min="1" max="100" name="productStock" id="productStock" class="form-control">
+            <div class="input-group mb-3">
+                <label style="color:#FEA116" for="staticEmail" class="col-sm-5 col-form-label" >Product Price</label>
+                <input class="form-control" value="1" min="1" max="100" name="productStock" id="productStock">
             </div>
-        </div>
-        <div >
-            <button class="btn btn-primary" id="addBtn">Add Product</button>
-        </div>
-    </div>
+            <div class="input-group mb-3">
+                <button id="addBtn" class="btn btn-lg btn-light w-100 fs-6">Add Product</button>
+            </div>
 
+        </div>
+{{--        <div class="col-md-6 right-box login">--}}
+
+{{--        </div>--}}
+
+    </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script>
     $('#addBtn').click(function (){

@@ -20,9 +20,9 @@ class ReservationApi extends Controller
 
     public function create(Request $request): JsonResponse
     {
-        $customer = Customers::create($request->only(['customerName', 'customerPhone']));
+        $customer = Customers::firstOrCreate($request->only(['customerName', 'customerPhone']));
 
-        $data = Customers::where('customerPhone', $customer->customerPhone)->first();
+        $data = $customer;
 
         $transaction = new Transactions();
         $transaction->customerId = $data->id;

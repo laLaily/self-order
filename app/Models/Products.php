@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Products extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     public $timestamps = false;
 

@@ -13,7 +13,7 @@
             <div class="col-md-6 bg-dark d-flex align-items-center">
                 <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
                     <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
-                    <h1 class="text-white mb-4">Book A Table Online</h1>
+                    <h1 class="text-white mb-4">Get Your Order Here</h1>
                     <form action="/api/reservation" method="post" name="registration">
                         @csrf
                         <div class="row g-3">
@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit" id="orderBtn">Book Now</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit" id="orderBtn">Order Now</button>
                             </div>
                         </div>
                     </form>

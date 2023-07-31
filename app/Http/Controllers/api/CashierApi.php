@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Cashiers;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CashierApi extends Controller
@@ -36,5 +37,10 @@ class CashierApi extends Controller
             'token_type' => 'bearer',
             'expires_in' => 60
         ]);
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        return redirect()->route('cashier.login');
     }
 }

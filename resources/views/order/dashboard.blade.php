@@ -7,12 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flower Cafe</title>
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/ss/boxicons.min.css">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
         * {
-            font-family: 'Playfair Display', serif;
-            font-family: 'Poppins', sans-serif;
+            /*font-family: 'Playfair Display', serif;*/
+            /*font-family: 'Poppins', sans-serif;*/
+            font-family: 'Pacifico', cursive;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -23,9 +25,9 @@
         }
 
         :root {
-            --main-color: #bc9667;
+            --main-color: #FEA116;
             --second-color: #edeae3;
-            --text-color: #1b1b1b;
+            --text-color: #0F172B;
             --bg-color: #fff;
         }
 
@@ -80,7 +82,7 @@
         .home {
             width: 100%;
             min-height: 100vh;
-            background: url(bg.png);
+            background-image: url("bgDashboard.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -147,14 +149,28 @@
 <body>
 <header>
     <a href="#" class="logo">
-        <img src="logo.jpg" alt="">
+        <img src="/assets/img/logo.png" alt="">
     </a>
     <i class="bx bx-menu" id="menu-icon"></i>
     <ul class="navbar">
         <li><a href="#home">Home</a></li>
         <li><a href="#owner">About Us</a></li>
     </ul>
+{{--    <nav>--}}
+{{--        <a href="" class="navbar-brand p-0">--}}
+
+{{--            <h1 class="text-primary m-0">--}}
+{{--                <img src="/assets/img/logo.png">--}}
+{{--                <i class="">--}}
+
+{{--                </i>Flower Cafe</h1>--}}
+{{--        </a>--}}
+{{--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">--}}
+{{--            <span class="fa fa-bars"></span>--}}
+{{--        </button>--}}
+{{--    </nav>--}}
 </header>
+
 <section class="home" id="home">
     <div class="home-text">
         <h1>Start Your Day <br>With Coffee <br> By Flower Cafe</h1>
@@ -164,12 +180,12 @@
         <a href="/dinein/registration" class="btn">Order Now</a>
     </div>
     <div class="home-img">
-        <img src="main.jpeg" alt="">
+        <img src="main.jpg" alt="">
     </div>
 </section>
 <section class="owner" id="owner">
     <div class="owner-img">
-        <img src="owner.jpeg" alt="">
+        <img src="owner.jpg" alt="" height="600px" width="400px">
     </div>
     <div class="owner-text">
         <h1>Our Owner</h1>
